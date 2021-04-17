@@ -1,0 +1,41 @@
+#+AUTHOR: Simponic
+#+DESCRIPTION: An emacs presentation
+
+* What is Emacs
+  + Emacs is a super extensible programmable "editor"
+	- You can write documents, code, agendas, emails, etc.
+	- Editor in quotes because it does much more than edit stuff
+	  + Tetris is in Emacs by default
+	  + Browse the web!
+		- I don't really know why you would though, but hey it's there
+	  + It can even be your window manager with the package exwm
+  + Written in Elisp
+	- A dialect of lisp written specifically for Emacs
+	- All configurations are done in this language
+	  + Example:
+		#+BEGIN_SRC emacs-lisp
+		  (split-window-below)
+		  (split-window-right)
+		#+END_SRC
+		- By default, Emacs does not have a way to go back a "window"
+		  + Time to learn some Emacs Jargon!
+			- Buffers
+			  + Buffers are kind of like tabs in a "regular" editor
+			- Windows
+			  + These are where buffers can be drawn
+			  + Like splitting in vim
+			- Frames
+			  + These are Emacs instances
+			  + What you would normally call a "window"
+		    - You really only need to know about buffers and windows
+		  + Let's look at some Elisp to do this for us!
+			#+BEGIN_SRC emacs-lisp
+			  (defun go-back-window ()
+				(interactive)
+				(other-window -1))
+			#+END_SRC
+		  + Now if we want to bind this function to a key we can!
+			#+BEGIN_SRC emacs-lisp
+			(global-set-key (kbd "C-c u") 'go-back-window)
+			#+END_SRC
+			
