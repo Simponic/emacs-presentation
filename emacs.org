@@ -1,41 +1,148 @@
 #+AUTHOR: Simponic
 #+DESCRIPTION: An emacs presentation
+#+STARTUP: fold inlineimages
 
-* What is Emacs
-  + Emacs is a super extensible programmable "editor"
-	- You can write documents, code, agendas, emails, etc.
-	- Editor in quotes because it does much more than edit stuff
-	  + Tetris is in Emacs by default
-	  + Browse the web!
-		- I don't really know why you would though, but hey it's there
-	  + It can even be your window manager with the package exwm
-  + Written in Elisp
-	- A dialect of lisp written specifically for Emacs
-	- All configurations are done in this language
-	  + Example:
-		#+BEGIN_SRC emacs-lisp
-		  (split-window-below)
-		  (split-window-right)
+* XKCD
+  [[./images/real_programmers.png]]
+* What is Emacs?
+** Emacs history
+*** From the [[https://www.emacswiki.org/emacs/EmacsHistory][EmacsWiki]]:
+    + Emacs began at the Artificial Intelligence Laboratory at MIT. Beginning in 1972,
+      staff hacker CarlMikkelsen added display-editing capability to TECO, the text editor
+      on the AI Lab’s IncompatibleTimeSharingSystem (ITS) “Display-editing” meant that the
+      screen display was updated as the user entered new commands; compare the behavior of
+      "ed". In 1974, Richard Stallman added macro features to the TECO editor.
+    + In 1976, Stallman wrote the first Emacs (“Editor MACroS”), which organized these
+      macros into a single command set and added facilities for SelfDocumentation and to be
+      extensible. TecoEmacs soon became the standard editor on ITS.
+** Emacs is a super extensible "editor" that is written in ELisp
+*** Why is editor in quotes?
+**** Emacs does much more than edit text
+	  - To show itself off, Emacs by default comes with a full game of
+		tetris!
+		+ Let me assert my nerd dominance by showing my tetris skills :)
+		  #+BEGIN_SRC emacs-lisp :results silent
+		  (tetris)
+		  #+END_SRC
+		+ It even works in the terminal! Albeit kinda squished
+	  - Besides being a great tool for when you're bored and your boss is looking
+		away, Emacs can also:
+		  1. Write emails with the mu4e package
+	      2. Write documents with Org Mode (more on this later)
+	      3. Be your window manager with the exwm package
+			 * I've given this a try, but I'm gonna stick with dwm
+		  4. Browse the internet with eww!
+			 #+BEGIN_SRC emacs-lisp :results silent
+			 (eww "https://gnu.org")
+			 #+END_SRC
+			 I'm not entirely certain why one would do this, but hey it's there!
+*** Some Emacs Jargon
+	Before continuing, I want to define some terms that are common in emacs.
+**** Weird key-binding notation?
+	 * "C" is control
+	 * "M" is alt/meta
+	 * "S" is shift
+	 * When there is a "-" between two keys that means press them together.
+	 * When there is a space, seperate them
+	 * "C-x C-f" means press control and x together, then control and f.
+	   - Or hold down control, press x, then press f while still holding it down
+**** What is a "buffer"?
+	 * A buffer is like a "tab" in most editors. You can swap between them
+	   with "C-x C-b"
+**** What is a "window"?
+	 * A window is where a buffer is drawn to. They are like the window splits
+	   in Vim
+	 * Cycle between windows with "C-x C-o"
+	 * Close a window with "C-x 0"
+**** What is a "frame"?
+	 * A frame is a whole instance of emacs. These are what you'd regularly
+	   refer as windows in normal computer discussions. You can move them around,
+	   minimize them (if you're using a tiling window manager), close them, etc.
+	 * Not very commonly used, though every once in a while you might come across
+	   a post asking about them
+**** Good-to-know keybindings
+	  1. Quit emacs with "C-x C-c"
+	  2. Find a file with "C-x C-f"
+	  3. Save a file with "C-x C-s"
+	  4. Accidentally pressed a different command and you have no idea what you're
+		 looking at? "C-g" will probably get you out of it.
+	  5. "C-x u" to undo your typing
+	  6. "C-space" to select a region and "C-g" to stop selecting it
+	  7. With a region selected, cut it with "C-w" (this is also known as "killing")
+	  8. Paste with "C-y" (this is also known as "yanking")
+	  9. Window/buffer keybindings described above
+	  10. Movement keys
+	  11. Searching for commands
+		  + "C-h a" to find the keybindings for a command, or to search for a command
+		  + "C-h k" to find the name of a function tied to a keybinding
+** What is ELisp?
+    Elisp is a dialect of Lisp specifically written for Emacs. It makes it super
+	easy to configure Emacs if you know just a little bit of Lisp. Lovers of Erik's
+    scheme talk will feel right at home with ELisp! (everything is defined in terms
+	of elisp functions, even moving the cursor and entering text)
+	
+	In fact, let's take a look at an example.
+	Here I will split this window into three sections:
+	#+BEGIN_SRC emacs-lisp :results silent
+	  (split-window-right)
+	  (split-window-below)
+	#+END_SRC
+
+	To cycle through these windows, I press "C-x C-o".
+	As you can see, I cycle through in the order they were created.
+
+	* However, what if I wanted to go back a window?
+	  - Emacs doesn't provide a keybinding for this by default, so let's make
+		it in Elisp ourselves!
+		#+BEGIN_SRC emacs-lisp :results silent
+		(defun go-back-window ()
+		  (interactive)
+		  (other-window -1))
 		#+END_SRC
-		- By default, Emacs does not have a way to go back a "window"
-		  + Time to learn some Emacs Jargon!
-			- Buffers
-			  + Buffers are kind of like tabs in a "regular" editor
-			- Windows
-			  + These are where buffers can be drawn
-			  + Like splitting in vim
-			- Frames
-			  + These are Emacs instances
-			  + What you would normally call a "window"
-		    - You really only need to know about buffers and windows
-		  + Let's look at some Elisp to do this for us!
-			#+BEGIN_SRC emacs-lisp
-			  (defun go-back-window ()
-				(interactive)
-				(other-window -1))
-			#+END_SRC
-		  + Now if we want to bind this function to a key we can!
-			#+BEGIN_SRC emacs-lisp
-			(global-set-key (kbd "C-c u") 'go-back-window)
-			#+END_SRC
-			
+	  - Let's add a key binding for this!
+		#+BEGIN_SRC emacs-lisp :results silent
+		(global-set-key (kbd "C-c u") 'go-back-window)
+		#+END_SRC
+
+* Why is Emacs better than Vim?
+** Org mode
+   Org mode is notorious for taking over programmer's lives. It's motto is
+   even "your life, in plain text". You can create calendars, make Latex
+   documents, make websites and blog posts with your own CSS, export to
+   Open Office formats, really anything you're creative enough to figure
+   out.
+** Amazing package support
+   Yeah yeah, vim has packages too... but they're not as cool as Emacs :)
+   
+   The emacs community is full of useful packages that are super easy to
+   install
+*** MELPA
+	This resource makes it even easier to install user packages
+*** SLIME
+	Get into a great Lisp interactive session!
+*** Magit
+	Great for git interaction!
+*** Company-mode
+	For completion
+*** Undo-tree
+	For undoing your work
+*** LSP-mode
+	For running language servers
+
+* First steps in going forward with Emacs
+** Are you a vim user converting from the dark side?
+   Check out [[https://github.com/hlissner/doom-emacs][Doom Emacs]] to get started on your journey!
+** Want to learn ELisp?
+   Check out "Writing GNU Emacs Extensions". It's a really good O'Reilly book
+   that you can access for free through USU.
+** Just want to get started with Emacs?
+   Dive right into emacs by installing it with whatever package manager you use.
+   Read the guide that is accessible on the default emacs start page! It will
+   teach you the basics. From there, just scrounge around the internet for
+   resources. There are plenty.
+   If you need a recommendation, you can start [[https://www.emacswiki.org/emacs/EmacsNewbie][at the emacs wiki.]]
+* The compromise
+** Can't decide which is better (it's emacs)? Good news! You don't have to!
+   Let's take a look at the "evil-mode" package. This is pretty much vim
+   emulation within emacs. It is the best vim emulator ever; whatever vim
+   can do, Evil Mode can do it too.
