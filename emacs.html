@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-04-20 Tue 18:27 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Simponic" />
+<meta name="description" content="An emacs presentation"
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orge5ef8b5">1. XKCD</a></li>
+<li><a href="#org00f7df2">2. What is Emacs?</a>
+<ul>
+<li><a href="#org4d7270a">2.1. Emacs history</a>
+<ul>
+<li><a href="#org6772ea0">2.1.1. From the EmacsWiki:</a></li>
+</ul>
+</li>
+<li><a href="#org736a19f">2.2. Emacs is a super extensible "editor" that is written in ELisp</a>
+<ul>
+<li><a href="#org9d5bb0a">2.2.1. Why is editor in quotes?</a></li>
+<li><a href="#org076db3c">2.2.2. Some Emacs Jargon</a></li>
+</ul>
+</li>
+<li><a href="#org82bb85b">2.3. What is ELisp?</a></li>
+</ul>
+</li>
+<li><a href="#orgb0178ad">3. Why is Emacs better than Vim?</a>
+<ul>
+<li><a href="#org7ec7ae8">3.1. Org mode</a></li>
+<li><a href="#org62e78ef">3.2. Amazing package support</a>
+<ul>
+<li><a href="#orge59119a">3.2.1. MELPA</a></li>
+<li><a href="#orgaaeeb00">3.2.2. SLIME</a></li>
+<li><a href="#org024f8ab">3.2.3. Magit</a></li>
+<li><a href="#orgc7bbeb8">3.2.4. Company-mode</a></li>
+<li><a href="#orgff617cf">3.2.5. Undo-tree</a></li>
+<li><a href="#orgc080fef">3.2.6. LSP-mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org1f28161">4. First steps in going forward with Emacs</a>
+<ul>
+<li><a href="#org3f551ba">4.1. Are you a vim user converting from the dark side?</a></li>
+<li><a href="#org889394b">4.2. Want to learn ELisp?</a></li>
+<li><a href="#org7d785d4">4.3. Just want to get started with Emacs?</a></li>
+</ul>
+</li>
+<li><a href="#orge85ebdb">5. The compromise</a>
+<ul>
+<li><a href="#orgf0a328c">5.1. Can't decide which is better (it's emacs)? Good news! You don't have to!</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge5ef8b5" class="outline-2">
+<h2 id="orge5ef8b5"><span class="section-number-2">1</span> XKCD</h2>
+<div class="outline-text-2" id="text-1">
+
+<div id="org064266b" class="figure">
+<p><img src="./images/real_programmers.png" alt="real_programmers.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org00f7df2" class="outline-2">
+<h2 id="org00f7df2"><span class="section-number-2">2</span> What is Emacs?</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org4d7270a" class="outline-3">
+<h3 id="org4d7270a"><span class="section-number-3">2.1</span> Emacs history</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-org6772ea0" class="outline-4">
+<h4 id="org6772ea0"><span class="section-number-4">2.1.1</span> From the <a href="https://www.emacswiki.org/emacs/EmacsHistory">EmacsWiki</a>:</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<ul class="org-ul">
+<li>Emacs began at the Artificial Intelligence Laboratory at MIT. Beginning in 1972,
+staff hacker CarlMikkelsen added display-editing capability to TECO, the text editor
+on the AI Lab’s IncompatibleTimeSharingSystem (ITS) “Display-editing” meant that the
+screen display was updated as the user entered new commands; compare the behavior of
+"ed". In 1974, Richard Stallman added macro features to the TECO editor.</li>
+<li>In 1976, Stallman wrote the first Emacs (“Editor MACroS”), which organized these
+macros into a single command set and added facilities for SelfDocumentation and to be
+extensible. TecoEmacs soon became the standard editor on ITS.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org736a19f" class="outline-3">
+<h3 id="org736a19f"><span class="section-number-3">2.2</span> Emacs is a super extensible "editor" that is written in ELisp</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-org9d5bb0a" class="outline-4">
+<h4 id="org9d5bb0a"><span class="section-number-4">2.2.1</span> Why is editor in quotes?</h4>
+<div class="outline-text-4" id="text-2-2-1">
+</div>
+<ol class="org-ol">
+<li><a id="orgf132afa"></a>Emacs does much more than edit text<br />
+<div class="outline-text-5" id="text-2-2-1-1">
+<ul class="org-ul">
+<li>To show itself off, Emacs by default comes with a full game of
+tetris!
+<ul class="org-ul">
+<li><p>
+Let me assert my nerd dominance by showing my tetris skills :)
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(tetris)
+</pre>
+</div></li>
+<li>It even works in the terminal! Albeit kinda squished</li>
+</ul></li>
+<li>Besides being a great tool for when you're bored and your boss is looking
+away, Emacs can also:
+<ol class="org-ol">
+<li>Write emails with the mu4e package</li>
+<li>Write documents with Org Mode (more on this later)</li>
+<li>Be your window manager with the exwm package
+<ul class="org-ul">
+<li>I've given this a try, but I'm gonna stick with dwm</li>
+</ul></li>
+<li><p>
+Browse the internet with eww!
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(eww "https://gnu.org")
+</pre>
+</div>
+<p>
+I'm not entirely certain why one would do this, but hey it's there!
+</p></li>
+</ol></li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org076db3c" class="outline-4">
+<h4 id="org076db3c"><span class="section-number-4">2.2.2</span> Some Emacs Jargon</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+Before continuing, I want to define some terms that are common in emacs.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orge97b3db"></a>Weird key-binding notation?<br />
+<div class="outline-text-5" id="text-2-2-2-1">
+<ul class="org-ul">
+<li>"C" is control</li>
+<li>"M" is alt/meta</li>
+<li>"S" is shift</li>
+<li>When there is a "-" between two keys that means press them together.</li>
+<li>When there is a space, seperate them</li>
+<li>"C-x C-f" means press control and x together, then control and f.
+<ul class="org-ul">
+<li>Or hold down control, press x, then press f while still holding it down</li>
+</ul></li>
+</ul>
+</div>
+</li>
+<li><a id="org68c8661"></a>What is a "buffer"?<br />
+<div class="outline-text-5" id="text-2-2-2-2">
+<ul class="org-ul">
+<li>A buffer is like a "tab" in most editors. You can swap between them
+with "C-x C-b"</li>
+</ul>
+</div>
+</li>
+<li><a id="org8a8f930"></a>What is a "window"?<br />
+<div class="outline-text-5" id="text-2-2-2-3">
+<ul class="org-ul">
+<li>A window is where a buffer is drawn to. They are like the window splits
+in Vim</li>
+<li>Cycle between windows with "C-x C-o"</li>
+<li>Close a window with "C-x 0"</li>
+</ul>
+</div>
+</li>
+<li><a id="org966cd43"></a>What is a "frame"?<br />
+<div class="outline-text-5" id="text-2-2-2-4">
+<ul class="org-ul">
+<li>A frame is a whole instance of emacs. These are what you'd regularly
+refer as windows in normal computer discussions. You can move them around,
+minimize them (if you're using a tiling window manager), close them, etc.</li>
+<li>Not very commonly used, though every once in a while you might come across
+a post asking about them</li>
+</ul>
+</div>
+</li>
+<li><a id="orgf4ba43e"></a>Good-to-know keybindings<br />
+<div class="outline-text-5" id="text-2-2-2-5">
+<ol class="org-ol">
+<li>Quit emacs with "C-x C-c"</li>
+<li>Find a file with "C-x C-f"</li>
+<li>Save a file with "C-x C-s"</li>
+<li>Accidentally pressed a different command and you have no idea what you're
+looking at? "C-g" will probably get you out of it.</li>
+<li>"C-x u" to undo your typing</li>
+<li>"C-space" to select a region and "C-g" to stop selecting it</li>
+<li>With a region selected, cut it with "C-w" (this is also known as "killing")</li>
+<li>Paste with "C-y" (this is also known as "yanking")</li>
+<li>Window/buffer keybindings described above</li>
+<li>Movement keys</li>
+<li>Searching for commands
+<ul class="org-ul">
+<li>"C-h a" to find the keybindings for a command, or to search for a command</li>
+<li>"C-h k" to find the name of a function tied to a keybinding</li>
+</ul></li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org82bb85b" class="outline-3">
+<h3 id="org82bb85b"><span class="section-number-3">2.3</span> What is ELisp?</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Elisp is a dialect of Lisp specifically written for Emacs. It makes it super
+easy to configure Emacs if you know just a little bit of Lisp. Lovers of Erik's
+scheme talk will feel right at home with ELisp! (everything is defined in terms
+of elisp functions, even moving the cursor and entering text)
+</p>
+
+<p>
+In fact, let's take a look at an example.
+Here I will split this window into three sections:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(split-window-right)
+(split-window-below)
+</pre>
+</div>
+
+<p>
+To cycle through these windows, I press "C-x C-o".
+As you can see, I cycle through in the order they were created.
+</p>
+
+<ul class="org-ul">
+<li>However, what if I wanted to go back a window?
+<ul class="org-ul">
+<li><p>
+Emacs doesn't provide a keybinding for this by default, so let's make
+it in Elisp ourselves!
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun go-back-window ()
+  (interactive)
+  (other-window -1))
+</pre>
+</div></li>
+<li><p>
+Let's add a key binding for this!
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(global-set-key (kbd "C-c u") 'go-back-window)
+</pre>
+</div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb0178ad" class="outline-2">
+<h2 id="orgb0178ad"><span class="section-number-2">3</span> Why is Emacs better than Vim?</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org7ec7ae8" class="outline-3">
+<h3 id="org7ec7ae8"><span class="section-number-3">3.1</span> Org mode</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Org mode is notorious for taking over programmer's lives. It's motto is
+even "your life, in plain text". You can create calendars, make Latex
+documents, make websites and blog posts with your own CSS, export to
+Open Office formats, really anything you're creative enough to figure
+out.
+</p>
+</div>
+</div>
+<div id="outline-container-org62e78ef" class="outline-3">
+<h3 id="org62e78ef"><span class="section-number-3">3.2</span> Amazing package support</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Yeah yeah, vim has packages too&#x2026; but they're not as cool as Emacs :)
+</p>
+
+<p>
+The emacs community is full of useful packages that are super easy to
+install
+</p>
+</div>
+<div id="outline-container-orge59119a" class="outline-4">
+<h4 id="orge59119a"><span class="section-number-4">3.2.1</span> MELPA</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+This resource makes it even easier to install user packages
+</p>
+</div>
+</div>
+<div id="outline-container-orgaaeeb00" class="outline-4">
+<h4 id="orgaaeeb00"><span class="section-number-4">3.2.2</span> SLIME</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<p>
+Get into a great Lisp interactive session!
+</p>
+</div>
+</div>
+<div id="outline-container-org024f8ab" class="outline-4">
+<h4 id="org024f8ab"><span class="section-number-4">3.2.3</span> Magit</h4>
+<div class="outline-text-4" id="text-3-2-3">
+<p>
+Great for git interaction!
+</p>
+</div>
+</div>
+<div id="outline-container-orgc7bbeb8" class="outline-4">
+<h4 id="orgc7bbeb8"><span class="section-number-4">3.2.4</span> Company-mode</h4>
+<div class="outline-text-4" id="text-3-2-4">
+<p>
+For completion
+</p>
+</div>
+</div>
+<div id="outline-container-orgff617cf" class="outline-4">
+<h4 id="orgff617cf"><span class="section-number-4">3.2.5</span> Undo-tree</h4>
+<div class="outline-text-4" id="text-3-2-5">
+<p>
+For undoing your work
+</p>
+</div>
+</div>
+<div id="outline-container-orgc080fef" class="outline-4">
+<h4 id="orgc080fef"><span class="section-number-4">3.2.6</span> LSP-mode</h4>
+<div class="outline-text-4" id="text-3-2-6">
+<p>
+For running language servers
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1f28161" class="outline-2">
+<h2 id="org1f28161"><span class="section-number-2">4</span> First steps in going forward with Emacs</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org3f551ba" class="outline-3">
+<h3 id="org3f551ba"><span class="section-number-3">4.1</span> Are you a vim user converting from the dark side?</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Check out <a href="https://github.com/hlissner/doom-emacs">Doom Emacs</a> to get started on your journey!
+</p>
+</div>
+</div>
+<div id="outline-container-org889394b" class="outline-3">
+<h3 id="org889394b"><span class="section-number-3">4.2</span> Want to learn ELisp?</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Check out "Writing GNU Emacs Extensions". It's a really good O'Reilly book
+that you can access for free through USU.
+</p>
+</div>
+</div>
+<div id="outline-container-org7d785d4" class="outline-3">
+<h3 id="org7d785d4"><span class="section-number-3">4.3</span> Just want to get started with Emacs?</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Dive right into emacs by installing it with whatever package manager you use.
+Read the guide that is accessible on the default emacs start page! It will
+teach you the basics. From there, just scrounge around the internet for
+resources. There are plenty.
+If you need a recommendation, you can start <a href="https://www.emacswiki.org/emacs/EmacsNewbie">at the emacs wiki.</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge85ebdb" class="outline-2">
+<h2 id="orge85ebdb"><span class="section-number-2">5</span> The compromise</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orgf0a328c" class="outline-3">
+<h3 id="orgf0a328c"><span class="section-number-3">5.1</span> Can't decide which is better (it's emacs)? Good news! You don't have to!</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Let's take a look at the "evil-mode" package. This is pretty much vim
+emulation within emacs. It is the best vim emulator ever; whatever vim
+can do, Evil Mode can do it too.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Simponic</p>
+<p class="date">Created: 2021-04-20 Tue 18:27</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
