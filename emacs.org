@@ -1,148 +1,331 @@
+#+TITLE: Emacs - "Editor MACroS"
 #+AUTHOR: Simponic
 #+DESCRIPTION: An emacs presentation
 #+STARTUP: fold inlineimages
 
 * XKCD
   [[./images/real_programmers.png]]
+
+
 * What is Emacs?
+* From [[https://www.gnu.org/software/emacs/][GNU.org]]:
+Emacs is "an extensible, customizable, free/libre text editor — and more. At its core is an interpreter for Emacs Lisp, a dialect of the Lisp programming language with extensions to support text editing."
+
 ** Emacs history
 *** From the [[https://www.emacswiki.org/emacs/EmacsHistory][EmacsWiki]]:
-    + Emacs began at the Artificial Intelligence Laboratory at MIT. Beginning in 1972,
-      staff hacker CarlMikkelsen added display-editing capability to TECO, the text editor
-      on the AI Lab’s IncompatibleTimeSharingSystem (ITS) “Display-editing” meant that the
-      screen display was updated as the user entered new commands; compare the behavior of
-      "ed". In 1974, Richard Stallman added macro features to the TECO editor.
-    + In 1976, Stallman wrote the first Emacs (“Editor MACroS”), which organized these
-      macros into a single command set and added facilities for SelfDocumentation and to be
-      extensible. TecoEmacs soon became the standard editor on ITS.
-** Emacs is a super extensible "editor" that is written in ELisp
-*** Why is editor in quotes?
+Emacs began at the Artificial Intelligence Laboratory at MIT. Beginning in 1972, staff hacker CarlMikkelsen added display-editing capability to TECO, the text editor on the AI Lab’s IncompatibleTimeSharingSystem (ITS) “Display-editing” meant that the screen display was updated as the user entered new commands; compare the behavior of "ed". In 1974, Richard Stallman added macro features to the TECO editor.
+
+In 1976, Stallman wrote the first Emacs (“Editor MACroS”), which organized these macros into a single command set and added facilities for SelfDocumentation and to be extensible.
+
+[[https://www.jwz.org/doc/emacs-timeline.html][A Map Of Emacs History Until 2007]]
+
+
+** Emacs is a super extensible "editor" that is written in Elisp
+*** "Editor"
 **** Emacs does much more than edit text
-	  - To show itself off, Emacs by default comes with a full game of
-		tetris!
-		+ Let me assert my nerd dominance by showing my tetris skills :)
-		  #+BEGIN_SRC emacs-lisp :results silent
-		  (tetris)
-		  #+END_SRC
-		+ It even works in the terminal! Albeit kinda squished
-	  - Besides being a great tool for when you're bored and your boss is looking
-		away, Emacs can also:
-		  1. Write emails with the mu4e package
-	      2. Write documents with Org Mode (more on this later)
-	      3. Be your window manager with the exwm package
-			 * I've given this a try, but I'm gonna stick with dwm
-		  4. Browse the internet with eww!
-			 #+BEGIN_SRC emacs-lisp :results silent
-			 (eww "https://gnu.org")
-			 #+END_SRC
-			 I'm not entirely certain why one would do this, but hey it's there!
-*** Some Emacs Jargon
-	Before continuing, I want to define some terms that are common in emacs.
+- To show itself off, Emacs by default comes with a full game of tetris!
+  #+BEGIN_SRC emacs-lisp :results silent
+(tetris)
+  #+END_SRC
+
+  - Besides being a great tool to play tetris when you're bored and your boss is looking away, Emacs can also:
+    1. Write emails with the `mu4e` package
+    2. Write documents with Org Mode (more on this later)
+    3. Be your window manager with the exwm package
+       + I've given this a try, but I'm gonna stick with dwm
+    4. Browse the internet with eww!
+       + Eww in action
+       #+BEGIN_SRC emacs-lisp :results silent
+(eww "https://gnu.org")
+       #+END_SRC
+
+*** Emacs Glossary
 **** Weird key-binding notation?
-	 * "C" is control
-	 * "M" is alt/meta
-	 * "S" is shift
-	 * When there is a "-" between two keys that means press them together.
-	 * When there is a space, seperate them
-	 * "C-x C-f" means press control and x together, then control and f.
-	   - Or hold down control, press x, then press f while still holding it down
++ "C" is control
++ "M" is alt/meta
++ "S" is shift
+
+When there is a "-" between two keys that means press them together.
+
+"C-x C-f": Control and x and then control and f (you can also hold down control)
+
 **** What is a "buffer"?
-	 * A buffer is like a "tab" in most editors. You can swap between them
-	   with "C-x C-b"
+Buffers hold a file's text. In the example before with Tetris, `(tetris)` creates a Tetris buffer.
+
+You can think of buffers as "tabs" in a browser or GUI text editor
+
 **** What is a "window"?
-	 * A window is where a buffer is drawn to. They are like the window splits
-	   in Vim
-	 * Cycle between windows with "C-x C-o"
-	 * Close a window with "C-x 0"
+A window hosts a buffer. When you make a split, each side is a "window"
+
+Cycle between windows with "C-x C-o"
+
+Close a window with "C-x 0"
+
 **** What is a "frame"?
-	 * A frame is a whole instance of emacs. These are what you'd regularly
-	   refer as windows in normal computer discussions. You can move them around,
-	   minimize them (if you're using a tiling window manager), close them, etc.
-	 * Not very commonly used, though every once in a while you might come across
-	   a post asking about them
+ A frame hosts a complete instance Emacs. They are equivalent to "windows" in a window manager. It's common to only really ever use one.
+
 **** Good-to-know keybindings
-	  1. Quit emacs with "C-x C-c"
-	  2. Find a file with "C-x C-f"
-	  3. Save a file with "C-x C-s"
-	  4. Accidentally pressed a different command and you have no idea what you're
-		 looking at? "C-g" will probably get you out of it.
-	  5. "C-x u" to undo your typing
-	  6. "C-space" to select a region and "C-g" to stop selecting it
-	  7. With a region selected, cut it with "C-w" (this is also known as "killing")
-	  8. Paste with "C-y" (this is also known as "yanking")
-	  9. Window/buffer keybindings described above
-	  10. Movement keys
-	  11. Searching for commands
-		  + "C-h a" to find the keybindings for a command, or to search for a command
-		  + "C-h k" to find the name of a function tied to a keybinding
-** What is ELisp?
-    Elisp is a dialect of Lisp specifically written for Emacs. It makes it super
-	easy to configure Emacs if you know just a little bit of Lisp. Lovers of Erik's
-    scheme talk will feel right at home with ELisp! (everything is defined in terms
-	of elisp functions, even moving the cursor and entering text)
-	
-	In fact, let's take a look at an example.
-	Here I will split this window into three sections:
-	#+BEGIN_SRC emacs-lisp :results silent
-	  (split-window-right)
-	  (split-window-below)
-	#+END_SRC
+  1. Quit emacs with "C-x C-c"
+  2. Open a file with "C-x C-f"
+  3. Save a file with "C-x C-s"
+  4. Accidentally pressed a different command and you have no idea what you're looking at? "C-g" will probably get you out of it.
+  5. "C-x u" to undo
+  6. "C-space" to select a region and "C-g" to stop selecting it
+  7. With a region selected, cut it with "C-w" (this is also known as "killing")
+  8. Paste with "C-y" (this is also known as "yanking")
+  9. Window/buffer keybindings:
+     + "C-x C-b" changes the buffer in the current window
+     + "C-x 2" splits a buffer vertically
+     + "C-x 3" splits a buffer horizontally
+     + "C-x o" changes the current window
+     + "C-x 0" kills the current window
+     + "C-x k" kills the current buffer
+  10. Movement keys
+      + "C-n" goes to the next line
+        - Vim: "j"
+      + "C-p" goes to the previous line
+        - Vim: "k"
+      + "C-f" goes to the next character
+        - Vim: "l"
+      + "C-b" goes to the previous character
+        - Vim: "h"
+      + "M-f" and "M-b" goes forward/back a word
+        - Vim: "f" and "b"
+      + "C-a" goes to beginning of a line
+        - Vim: "0"
+      + "C-e" goes to the end of a line
+        - Vim: "$"
+  11. Documentation
+      + "C-h a" to find the keybindings for a command, or to search for a command
+      + "C-h k" to find the name of a function tied to a keybinding
 
-	To cycle through these windows, I press "C-x C-o".
-	As you can see, I cycle through in the order they were created.
 
-	* However, what if I wanted to go back a window?
-	  - Emacs doesn't provide a keybinding for this by default, so let's make
-		it in Elisp ourselves!
-		#+BEGIN_SRC emacs-lisp :results silent
-		(defun go-back-window ()
-		  (interactive)
-		  (other-window -1))
-		#+END_SRC
-	  - Let's add a key binding for this!
-		#+BEGIN_SRC emacs-lisp :results silent
-		(global-set-key (kbd "C-c u") 'go-back-window)
-		#+END_SRC
+** First look at Elisp
+Elisp is a dialect of Lisp specifically written for Emacs. Everything in Elisp is a function. Drawing the buffer, splitting windows, moving the text cursor, are all functions you can call in Elisp. It makes it super easy to configure Emacs if you know just a little bit of Lisp.
+
+In fact, let's take a look at Elisp and how we can start to customize our own environment programatically.
+
+*** Lisp's simple syntax
+In Lisps, the syntax is super simple. Everything is essentially a linked list, both in data and in source code. Lists are written like `(a . (b . (c . NIL)))`. This would be equivalent to the linked list `a -> b -> c -> null` (nil = null = false in lisp).
+
+However, writing a dot and a period becomes cumbersome when you have even a medium sized list. This is where s-expressions are useful.
+
+S-expressions are written with parentheses around them, like so: `(a b c)`. This is shorthand for the above `(a . (b . (c . NIL)))`.
+
+By convention, Lisp code is written with the function as the first element in the linked list, and arguments of the function afterwards.
+
+**** Sum of numbers
+***** The list way
+#+BEGIN_SRC emacs-lisp :result output
+(+ . (2 . (2 . nil))) ;; 2 + 2
+#+END_SRC
+
+#+RESULTS:
+: 4
+***** The S-expression way
+#+BEGIN_SRC emacs-lisp :result output
+(+ 2 2)
+#+END_SRC
+
+#+RESULTS:
+: 4
+
+**** Difference of numbers
+#+BEGIN_SRC emacs-lisp :result output
+(- 3 2) ;; 3 - 2
+#+END_SRC
+
+#+RESULTS:
+: 1
+**** Printing values
+`princ` will take the value of a lisp object at print it:
+
+#+BEGIN_SRC emacs-lisp :result output
+(princ "Hello, world!")
+#+END_SRC
+
+#+RESULTS:
+: Hello, world!
+**** Multiplication
+#+BEGIN_SRC emacs-lisp :result output
+(* 3 5) ;; 3 * 5
+#+END_SRC
+
+#+RESULTS:
+: 15
+**** Division
+(Integer math)
+#+BEGIN_SRC emacs-lisp :result output
+(princ (/ 3 5)) ;; 3 / 5
+#+END_SRC
+
+#+RESULTS:
+: 0
+(Floating-point math)
+#+BEGIN_SRC emacs-lisp :result output
+(princ (/ 3.0 5)) ;; 3 / 5
+#+END_SRC
+
+#+RESULTS:
+: 0.6
+
+**** Order of operations
+#+BEGIN_SRC emacs-lisp :result output
+(setq a (/ (* 2 3) (- 6 1)))     ;; variable a = (2 * 3) / (6 - 1) = 1
+(setq b (- (* 2 (/ 3.0 6.0)) 1)) ;; variable b = (2 * (3 / 6)) - 1 = 0
+(princ (list a b)) ;; Print a linked list a -> b -> nil
+#+END_SRC
+
+#+RESULTS:
+| 1 | 0.0 |
+*** Writing a simple function in Elisp
+Here I will split this window into three sections with Elisp:
+
+#+BEGIN_SRC emacs-lisp :results silent
+(split-window-right)
+(split-window-below)
+#+END_SRC
+
+To cycle forward through these windows, I press "C-x C-o".
+
+However, what if I want to go back a window?
+
+Emacs doesn't provide a keybinding for this by default (to my knowledge), so let's make it in Elisp ourselves!
+
+**** Definining a function to go back a window
+Functions in Elisp are made with the `defun` macro (macros are for a different presentation) and the syntax is:
+
+`(defun function-name (list-of-args) function-body)`
+
+The last element in the function body is what is returned
+
+For example, to make a function to find the hypotenuse of a right triangle with lengths a,b:
+#+BEGIN_SRC emacs-lisp :results output
+(defun pythagoras (a b)
+  (setq a-squared (* a a))
+  (setq b-squared (* b b))
+  (sqrt (+ a-squared b-squared)))
+(princ (pythagoras 5 12))
+#+END_SRC
+
+#+RESULTS:
+: 13.0
+
+Defining the function
+#+BEGIN_SRC emacs-lisp :results silent
+(defun go-back-window ()
+  (interactive) ;; makes a function an interactively-callable command (e.g. allowing call by a keybinding)
+  (other-window -1)) ;; (other-window n) goes n windows forward in the window stack
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :results silent
+(go-back-window)
+#+END_SRC
+
+Let's add a key binding for this!
+
+#+BEGIN_SRC emacs-lisp :results silent
+(global-set-key (kbd "C-c u") 'go-back-window) ;; We specify the name of the function by turning it into a "symbol"
+#+END_SRC
+
 
 * Why is Emacs better than Vim?
 ** Org mode
-   Org mode is notorious for taking over programmer's lives. It's motto is
-   even "your life, in plain text". You can create calendars, make Latex
-   documents, make websites and blog posts with your own CSS, export to
-   Open Office formats, really anything you're creative enough to figure
-   out.
-** Amazing package support
-   Yeah yeah, vim has packages too... but they're not as cool as Emacs :)
-   
-   The emacs community is full of useful packages that are super easy to
-   install
+*** "Your life, in plain text"
+Every single org file is represented in Plain Text. Similar to markdown, it's a way to format this plain text so that it's readable and understandable by humans, but still parsable and extensible for programmers. This presentation itself is in org mode!
+
+*** Programming in org mode
+You may have noticed these things here in my presentations:
+
+#+BEGIN_SRC emacs-lisp :results output
+(princ "I run in a source block!")
+#+END_SRC
+
+#+RESULTS:
+: I run in a source block!
+
+These blocks, called "source blocks", are blocks of code you can run interactively in an org mode document. It's incredibly common for emacs users to define their init.el (the file emacs will run first when it starts up) in an org mode document, whose source-blocks are cut out and placed automatically.
+
+They are also great for presentations, and taking notes in a CS class
+
+These blocks are run with "C-c C-c"
+
+*** Math homework in org mode
+Org mode also has amazing LaTeX support. It's really easy to add mathematical symbols in an org mode document.
+***** Inline org mode math
+****** A function f
+S = {students at USU}
+M = {members of FSLC}
+B = {cool, uncool}
+
+f : S \rightarrow B \ni f(x) = {
+    cool (x \in M),
+    uncool
+}
+
+****** Definition of a proper subset
+Let A,B be sets:
+A \subset B \Leftrightarrow \forall x (x \in A \Rightarrow x \in B) \wedge A \neq B
+
+****** Let's make it pretty!
+Right now, it doesn't look pretty, but watch this:
+
+#+BEGIN_SRC emacs-lisp :results silent
+(org-toggle-pretty-entities)
+#+END_SRC
+
+
+
+***** Exporting to LaTeX
+There's still a lot more flexibility in completely exporting an org mode document to a LaTeX pdf. You can define equations, include diagrams, captions, etc. It's super simple too! Just use the command `C-c C-e l o` (you need latex packages installed)
+
+*** Export to literally any format
+With the export menu, you can easily export to Open Office documents, HTML pages, Markdown, iCalendar (you can make agendas in Emacs), really anything!
+
+** Amazing package support and community
+Yeah yeah, vim has packages too... but they're not as cool or easy to install as Emacs :)
+
+The emacs community has made an insane amount of useful packages that are super easy to install. Here are a few:
 *** MELPA
-	This resource makes it even easier to install user packages
+Essentially a repository of user-made extensions for Emacs. Think of this as the AUR.
 *** SLIME
-	Get into a great Lisp interactive session!
+Get into a great Lisp interactive session!
 *** Magit
-	Great for git interaction!
+Great for git interaction!
 *** Company-mode
-	For completion
+For completion
 *** Undo-tree
-	For undoing your work
+For undoing your work in a neater fashion
 *** LSP-mode
-	For running language servers
+For running language servers
+
+
+** It's written in Lisp
+We've already taken a look at Elisp, but Lisp goes far more in depth than our simple breach of the surface. It's by far my favorite language, and it has influenced language since its creation in the 60's (10 years before C).
+
+Lisp is wholly functional, which is great in comparison to ugly Object-Oriented languages like Java.
+(Really, OOP is fine where necessary but it gets really bloated really really fast)
+
 
 * First steps in going forward with Emacs
-** Are you a vim user converting from the dark side?
-   Check out [[https://github.com/hlissner/doom-emacs][Doom Emacs]] to get started on your journey!
 ** Want to learn ELisp?
-   Check out "Writing GNU Emacs Extensions". It's a really good O'Reilly book
-   that you can access for free through USU.
-** Just want to get started with Emacs?
-   Dive right into emacs by installing it with whatever package manager you use.
-   Read the guide that is accessible on the default emacs start page! It will
-   teach you the basics. From there, just scrounge around the internet for
-   resources. There are plenty.
-   If you need a recommendation, you can start [[https://www.emacswiki.org/emacs/EmacsNewbie][at the emacs wiki.]]
+I recommend reading "Writing GNU Emacs Extensions". It goes into detail with Lisp, Emacs functions, and how everything works under the hood. It's an O'Reilly book, so you get it free through USU.
+
+** Want to get started with Emacs?
+Dive right into emacs by installing it with whatever package manager you use.
+
+Read the guide that is accessible on the default emacs start page! It will teach you the basics of movement and usage of the software. From there, just search around the internet for resources. There are plenty.
+
+If you need help or a recommendation, you can start [[https://www.emacswiki.org/emacs/EmacsNewbie][at the emacs wiki.]] Or ask on the FSLC Discord in the `emacs-lisp` channel.
+
+
 * The compromise
 ** Can't decide which is better (it's emacs)? Good news! You don't have to!
-   Let's take a look at the "evil-mode" package. This is pretty much vim
-   emulation within emacs. It is the best vim emulator ever; whatever vim
-   can do, Evil Mode can do it too.
+Let's take a look at the "evil-mode" package. This project aims to have 100% vim emulation within emacs. Whatever Vim can do, Evil Mode can do it too.
+
+A great pre-built bundle for Emacs, called [[https://github.com/hlissner/doom-emacs][Doom Emacs]], is great for new users who have familiarity with vim keybindings.
+
+** More on Doom
+Personally, I used to use my own Emacs configuration that I wrote my own extensions in Lisp for, but Doom has much saner defaults so I switched. Default Emacs looks ugly as hell:
+
+[[./images/emacs_default.png]]

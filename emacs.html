@@ -3,16 +3,15 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-04-20 Tue 18:27 -->
+<!-- 2021-10-13 Wed 22:01 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>&lrm;</title>
-<meta name="generator" content="Org mode" />
+<title>Emacs - "Editor MACroS"</title>
 <meta name="author" content="Simponic" />
-<meta name="description" content="An emacs presentation"
- />
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
+<meta name="description" content="An emacs presentation" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
   .title  { text-align: center;
              margin-bottom: .2em; }
   .subtitle { text-align: center;
@@ -33,8 +32,9 @@
   #postamble p, #preamble p { font-size: 90%; margin: .2em; }
   p.verse { margin-left: 3%; }
   pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
     padding: 8pt;
     font-family: monospace;
     overflow: auto;
@@ -43,21 +43,21 @@
   pre.src {
     position: relative;
     overflow: auto;
-    padding-top: 1.2em;
   }
   pre.src:before {
     display: none;
     position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
+    top: -8px;
+    right: 12px;
     padding: 3px;
-    border: 1px solid black;
+    color: #555;
+    background-color: #f2f2f299;
   }
   pre.src:hover:before { display: inline; margin-top: 14px;}
   /* Languages per Org manual */
   pre.src-asymptote:before { content: 'Asymptote'; }
   pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
   pre.src-C:before { content: 'C'; }
   /* pre.src-C++ doesn't work in CSS */
   pre.src-clojure:before { content: 'Clojure'; }
@@ -193,429 +193,752 @@
   .org-info-js_search-highlight
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { width: 90%; }
-  /*]]>*/-->
 </style>
-<script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
-<!--/*--><![CDATA[/*><!--*/
-     function CodeHighlightOn(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.add("code-highlighted");
-         target.classList.add("code-highlighted");
-       }
-     }
-     function CodeHighlightOff(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.remove("code-highlighted");
-         target.classList.remove("code-highlighted");
-       }
-     }
-    /*]]>*///-->
-// @license-end
-</script>
 </head>
 <body>
-<div id="content">
-<div id="table-of-contents">
+<div id="content" class="content">
+<h1 class="title">Emacs - &ldquo;Editor MACroS&rdquo;</h1>
+<div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge5ef8b5">1. XKCD</a></li>
-<li><a href="#org00f7df2">2. What is Emacs?</a>
+<li><a href="#org48122a1">1. XKCD</a></li>
+<li><a href="#orgd143ec1">2. What is Emacs?</a></li>
+<li><a href="#org1cba9c8">3. From GNU.org:</a>
 <ul>
-<li><a href="#org4d7270a">2.1. Emacs history</a>
+<li><a href="#org9a21c74">3.1. Emacs history</a>
 <ul>
-<li><a href="#org6772ea0">2.1.1. From the EmacsWiki:</a></li>
+<li><a href="#org4e0128f">3.1.1. From the EmacsWiki:</a></li>
 </ul>
 </li>
-<li><a href="#org736a19f">2.2. Emacs is a super extensible "editor" that is written in ELisp</a>
+<li><a href="#org0a31c89">3.2. Emacs is a super extensible &ldquo;editor&rdquo; that is written in Elisp</a>
 <ul>
-<li><a href="#org9d5bb0a">2.2.1. Why is editor in quotes?</a></li>
-<li><a href="#org076db3c">2.2.2. Some Emacs Jargon</a></li>
+<li><a href="#org54488ba">3.2.1. &ldquo;Editor&rdquo;</a></li>
+<li><a href="#org770e2ee">3.2.2. Emacs Glossary</a></li>
 </ul>
 </li>
-<li><a href="#org82bb85b">2.3. What is ELisp?</a></li>
-</ul>
-</li>
-<li><a href="#orgb0178ad">3. Why is Emacs better than Vim?</a>
+<li><a href="#orgd138802">3.3. First look at Elisp</a>
 <ul>
-<li><a href="#org7ec7ae8">3.1. Org mode</a></li>
-<li><a href="#org62e78ef">3.2. Amazing package support</a>
-<ul>
-<li><a href="#orge59119a">3.2.1. MELPA</a></li>
-<li><a href="#orgaaeeb00">3.2.2. SLIME</a></li>
-<li><a href="#org024f8ab">3.2.3. Magit</a></li>
-<li><a href="#orgc7bbeb8">3.2.4. Company-mode</a></li>
-<li><a href="#orgff617cf">3.2.5. Undo-tree</a></li>
-<li><a href="#orgc080fef">3.2.6. LSP-mode</a></li>
+<li><a href="#orgfdb2559">3.3.1. Lisp&rsquo;s simple syntax</a></li>
+<li><a href="#orgd990cd9">3.3.2. Writing a simple function in Elisp</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org1f28161">4. First steps in going forward with Emacs</a>
+<li><a href="#orgc62f346">4. Why is Emacs better than Vim?</a>
 <ul>
-<li><a href="#org3f551ba">4.1. Are you a vim user converting from the dark side?</a></li>
-<li><a href="#org889394b">4.2. Want to learn ELisp?</a></li>
-<li><a href="#org7d785d4">4.3. Just want to get started with Emacs?</a></li>
+<li><a href="#org9cb415d">4.1. Org mode</a>
+<ul>
+<li><a href="#orgfd1cfa9">4.1.1. &ldquo;Your life, in plain text&rdquo;</a></li>
+<li><a href="#org5703388">4.1.2. Programming in org mode</a></li>
+<li><a href="#org9ceb068">4.1.3. Math homework in org mode</a></li>
+<li><a href="#org5f332b5">4.1.4. Export to literally any format</a></li>
 </ul>
 </li>
-<li><a href="#orge85ebdb">5. The compromise</a>
+<li><a href="#orgeae2586">4.2. Amazing package support and community</a>
 <ul>
-<li><a href="#orgf0a328c">5.1. Can't decide which is better (it's emacs)? Good news! You don't have to!</a></li>
+<li><a href="#org384b002">4.2.1. MELPA</a></li>
+<li><a href="#org2cec309">4.2.2. SLIME</a></li>
+<li><a href="#org8692c74">4.2.3. Magit</a></li>
+<li><a href="#org4b39e5d">4.2.4. Company-mode</a></li>
+<li><a href="#org167ed70">4.2.5. Undo-tree</a></li>
+<li><a href="#org9b1f6b7">4.2.6. LSP-mode</a></li>
+</ul>
+</li>
+<li><a href="#org966691d">4.3. It&rsquo;s written in Lisp</a></li>
+</ul>
+</li>
+<li><a href="#org86d0202">5. First steps in going forward with Emacs</a>
+<ul>
+<li><a href="#org8dbd14d">5.1. Want to learn ELisp?</a></li>
+<li><a href="#org7b98e1f">5.2. Want to get started with Emacs?</a></li>
+</ul>
+</li>
+<li><a href="#orga0006b1">6. The compromise</a>
+<ul>
+<li><a href="#org4832571">6.1. Can&rsquo;t decide which is better (it&rsquo;s emacs)? Good news! You don&rsquo;t have to!</a></li>
+<li><a href="#org1231631">6.2. More on Doom</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orge5ef8b5" class="outline-2">
-<h2 id="orge5ef8b5"><span class="section-number-2">1</span> XKCD</h2>
+<div id="outline-container-org48122a1" class="outline-2">
+<h2 id="org48122a1"><span class="section-number-2">1.</span> XKCD</h2>
 <div class="outline-text-2" id="text-1">
 
-<div id="org064266b" class="figure">
+<div id="orgda3dd78" class="figure">
 <p><img src="./images/real_programmers.png" alt="real_programmers.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org00f7df2" class="outline-2">
-<h2 id="org00f7df2"><span class="section-number-2">2</span> What is Emacs?</h2>
-<div class="outline-text-2" id="text-2">
+
+
+<div id="outline-container-orgd143ec1" class="outline-2">
+<h2 id="orgd143ec1"><span class="section-number-2">2.</span> What is Emacs?</h2>
 </div>
-<div id="outline-container-org4d7270a" class="outline-3">
-<h3 id="org4d7270a"><span class="section-number-3">2.1</span> Emacs history</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-org1cba9c8" class="outline-2">
+<h2 id="org1cba9c8"><span class="section-number-2">3.</span> From <a href="https://www.gnu.org/software/emacs/">GNU.org</a>:</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Emacs is &ldquo;an extensible, customizable, free/libre text editor — and more. At its core is an interpreter for Emacs Lisp, a dialect of the Lisp programming language with extensions to support text editing.&rdquo;
+</p>
 </div>
-<div id="outline-container-org6772ea0" class="outline-4">
-<h4 id="org6772ea0"><span class="section-number-4">2.1.1</span> From the <a href="https://www.emacswiki.org/emacs/EmacsHistory">EmacsWiki</a>:</h4>
-<div class="outline-text-4" id="text-2-1-1">
-<ul class="org-ul">
-<li>Emacs began at the Artificial Intelligence Laboratory at MIT. Beginning in 1972,
-staff hacker CarlMikkelsen added display-editing capability to TECO, the text editor
-on the AI Lab’s IncompatibleTimeSharingSystem (ITS) “Display-editing” meant that the
-screen display was updated as the user entered new commands; compare the behavior of
-"ed". In 1974, Richard Stallman added macro features to the TECO editor.</li>
-<li>In 1976, Stallman wrote the first Emacs (“Editor MACroS”), which organized these
-macros into a single command set and added facilities for SelfDocumentation and to be
-extensible. TecoEmacs soon became the standard editor on ITS.</li>
-</ul>
+
+<div id="outline-container-org9a21c74" class="outline-3">
+<h3 id="org9a21c74"><span class="section-number-3">3.1.</span> Emacs history</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-org4e0128f" class="outline-4">
+<h4 id="org4e0128f"><span class="section-number-4">3.1.1.</span> From the <a href="https://www.emacswiki.org/emacs/EmacsHistory">EmacsWiki</a>:</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+Emacs began at the Artificial Intelligence Laboratory at MIT. Beginning in 1972, staff hacker CarlMikkelsen added display-editing capability to TECO, the text editor on the AI Lab’s IncompatibleTimeSharingSystem (ITS) “Display-editing” meant that the screen display was updated as the user entered new commands; compare the behavior of &ldquo;ed&rdquo;. In 1974, Richard Stallman added macro features to the TECO editor.
+</p>
+
+<p>
+In 1976, Stallman wrote the first Emacs (“Editor MACroS”), which organized these macros into a single command set and added facilities for SelfDocumentation and to be extensible.
+</p>
+
+<p>
+<a href="https://www.jwz.org/doc/emacs-timeline.html">A Map Of Emacs History Until 2007</a>
+</p>
 </div>
 </div>
 </div>
-<div id="outline-container-org736a19f" class="outline-3">
-<h3 id="org736a19f"><span class="section-number-3">2.2</span> Emacs is a super extensible "editor" that is written in ELisp</h3>
-<div class="outline-text-3" id="text-2-2">
+
+
+<div id="outline-container-org0a31c89" class="outline-3">
+<h3 id="org0a31c89"><span class="section-number-3">3.2.</span> Emacs is a super extensible &ldquo;editor&rdquo; that is written in Elisp</h3>
+<div class="outline-text-3" id="text-3-2">
 </div>
-<div id="outline-container-org9d5bb0a" class="outline-4">
-<h4 id="org9d5bb0a"><span class="section-number-4">2.2.1</span> Why is editor in quotes?</h4>
-<div class="outline-text-4" id="text-2-2-1">
+<div id="outline-container-org54488ba" class="outline-4">
+<h4 id="org54488ba"><span class="section-number-4">3.2.1.</span> &ldquo;Editor&rdquo;</h4>
+<div class="outline-text-4" id="text-3-2-1">
 </div>
 <ol class="org-ol">
-<li><a id="orgf132afa"></a>Emacs does much more than edit text<br />
-<div class="outline-text-5" id="text-2-2-1-1">
-<ul class="org-ul">
-<li>To show itself off, Emacs by default comes with a full game of
-tetris!
+<li><a id="orge87755b"></a>Emacs does much more than edit text<br />
+<div class="outline-text-5" id="text-3-2-1-1">
 <ul class="org-ul">
 <li><p>
-Let me assert my nerd dominance by showing my tetris skills :)
+To show itself off, Emacs by default comes with a full game of tetris!
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(tetris)
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #c678dd;">tetris</span><span style="color: #51afef;">)</span>
 </pre>
-</div></li>
-<li>It even works in the terminal! Albeit kinda squished</li>
-</ul></li>
-<li>Besides being a great tool for when you're bored and your boss is looking
-away, Emacs can also:
+</div>
+
+<ul class="org-ul">
+<li>Besides being a great tool to play tetris when you&rsquo;re bored and your boss is looking away, Emacs can also:
 <ol class="org-ol">
-<li>Write emails with the mu4e package</li>
+<li>Write emails with the `mu4e` package</li>
 <li>Write documents with Org Mode (more on this later)</li>
 <li>Be your window manager with the exwm package
 <ul class="org-ul">
-<li>I've given this a try, but I'm gonna stick with dwm</li>
+<li>I&rsquo;ve given this a try, but I&rsquo;m gonna stick with dwm</li>
 </ul></li>
 <li><p>
 Browse the internet with eww!
 </p>
+<ul class="org-ul">
+<li>Eww in action</li>
+</ul>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(eww "https://gnu.org")
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #c678dd;">eww</span> <span style="color: #98be65;">"https://gnu.org"</span><span style="color: #51afef;">)</span>
 </pre>
-</div>
-<p>
-I'm not entirely certain why one would do this, but hey it's there!
-</p></li>
+</div></li>
 </ol></li>
+</ul></li>
 </ul>
 </div>
 </li>
 </ol>
 </div>
-<div id="outline-container-org076db3c" class="outline-4">
-<h4 id="org076db3c"><span class="section-number-4">2.2.2</span> Some Emacs Jargon</h4>
-<div class="outline-text-4" id="text-2-2-2">
-<p>
-Before continuing, I want to define some terms that are common in emacs.
-</p>
-</div>
-<ol class="org-ol">
-<li><a id="orge97b3db"></a>Weird key-binding notation?<br />
-<div class="outline-text-5" id="text-2-2-2-1">
-<ul class="org-ul">
-<li>"C" is control</li>
-<li>"M" is alt/meta</li>
-<li>"S" is shift</li>
-<li>When there is a "-" between two keys that means press them together.</li>
-<li>When there is a space, seperate them</li>
-<li>"C-x C-f" means press control and x together, then control and f.
-<ul class="org-ul">
-<li>Or hold down control, press x, then press f while still holding it down</li>
-</ul></li>
-</ul>
-</div>
-</li>
-<li><a id="org68c8661"></a>What is a "buffer"?<br />
-<div class="outline-text-5" id="text-2-2-2-2">
-<ul class="org-ul">
-<li>A buffer is like a "tab" in most editors. You can swap between them
-with "C-x C-b"</li>
-</ul>
-</div>
-</li>
-<li><a id="org8a8f930"></a>What is a "window"?<br />
-<div class="outline-text-5" id="text-2-2-2-3">
-<ul class="org-ul">
-<li>A window is where a buffer is drawn to. They are like the window splits
-in Vim</li>
-<li>Cycle between windows with "C-x C-o"</li>
-<li>Close a window with "C-x 0"</li>
-</ul>
-</div>
-</li>
-<li><a id="org966cd43"></a>What is a "frame"?<br />
-<div class="outline-text-5" id="text-2-2-2-4">
-<ul class="org-ul">
-<li>A frame is a whole instance of emacs. These are what you'd regularly
-refer as windows in normal computer discussions. You can move them around,
-minimize them (if you're using a tiling window manager), close them, etc.</li>
-<li>Not very commonly used, though every once in a while you might come across
-a post asking about them</li>
-</ul>
-</div>
-</li>
-<li><a id="orgf4ba43e"></a>Good-to-know keybindings<br />
-<div class="outline-text-5" id="text-2-2-2-5">
-<ol class="org-ol">
-<li>Quit emacs with "C-x C-c"</li>
-<li>Find a file with "C-x C-f"</li>
-<li>Save a file with "C-x C-s"</li>
-<li>Accidentally pressed a different command and you have no idea what you're
-looking at? "C-g" will probably get you out of it.</li>
-<li>"C-x u" to undo your typing</li>
-<li>"C-space" to select a region and "C-g" to stop selecting it</li>
-<li>With a region selected, cut it with "C-w" (this is also known as "killing")</li>
-<li>Paste with "C-y" (this is also known as "yanking")</li>
-<li>Window/buffer keybindings described above</li>
-<li>Movement keys</li>
-<li>Searching for commands
-<ul class="org-ul">
-<li>"C-h a" to find the keybindings for a command, or to search for a command</li>
-<li>"C-h k" to find the name of a function tied to a keybinding</li>
-</ul></li>
-</ol>
-</div>
-</li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org82bb85b" class="outline-3">
-<h3 id="org82bb85b"><span class="section-number-3">2.3</span> What is ELisp?</h3>
-<div class="outline-text-3" id="text-2-3">
-<p>
-Elisp is a dialect of Lisp specifically written for Emacs. It makes it super
-easy to configure Emacs if you know just a little bit of Lisp. Lovers of Erik's
-scheme talk will feel right at home with ELisp! (everything is defined in terms
-of elisp functions, even moving the cursor and entering text)
-</p>
 
-<p>
-In fact, let's take a look at an example.
-Here I will split this window into three sections:
-</p>
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(split-window-right)
-(split-window-below)
-</pre>
-</div>
-
-<p>
-To cycle through these windows, I press "C-x C-o".
-As you can see, I cycle through in the order they were created.
-</p>
-
-<ul class="org-ul">
-<li>However, what if I wanted to go back a window?
-<ul class="org-ul">
-<li><p>
-Emacs doesn't provide a keybinding for this by default, so let's make
-it in Elisp ourselves!
-</p>
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(defun go-back-window ()
-  (interactive)
-  (other-window -1))
-</pre>
-</div></li>
-<li><p>
-Let's add a key binding for this!
-</p>
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd "C-c u") 'go-back-window)
-</pre>
-</div></li>
-</ul></li>
-</ul>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgb0178ad" class="outline-2">
-<h2 id="orgb0178ad"><span class="section-number-2">3</span> Why is Emacs better than Vim?</h2>
-<div class="outline-text-2" id="text-3">
-</div>
-<div id="outline-container-org7ec7ae8" class="outline-3">
-<h3 id="org7ec7ae8"><span class="section-number-3">3.1</span> Org mode</h3>
-<div class="outline-text-3" id="text-3-1">
-<p>
-Org mode is notorious for taking over programmer's lives. It's motto is
-even "your life, in plain text". You can create calendars, make Latex
-documents, make websites and blog posts with your own CSS, export to
-Open Office formats, really anything you're creative enough to figure
-out.
-</p>
-</div>
-</div>
-<div id="outline-container-org62e78ef" class="outline-3">
-<h3 id="org62e78ef"><span class="section-number-3">3.2</span> Amazing package support</h3>
-<div class="outline-text-3" id="text-3-2">
-<p>
-Yeah yeah, vim has packages too&#x2026; but they're not as cool as Emacs :)
-</p>
-
-<p>
-The emacs community is full of useful packages that are super easy to
-install
-</p>
-</div>
-<div id="outline-container-orge59119a" class="outline-4">
-<h4 id="orge59119a"><span class="section-number-4">3.2.1</span> MELPA</h4>
-<div class="outline-text-4" id="text-3-2-1">
-<p>
-This resource makes it even easier to install user packages
-</p>
-</div>
-</div>
-<div id="outline-container-orgaaeeb00" class="outline-4">
-<h4 id="orgaaeeb00"><span class="section-number-4">3.2.2</span> SLIME</h4>
+<div id="outline-container-org770e2ee" class="outline-4">
+<h4 id="org770e2ee"><span class="section-number-4">3.2.2.</span> Emacs Glossary</h4>
 <div class="outline-text-4" id="text-3-2-2">
+</div>
+<ol class="org-ol">
+<li><a id="orgff89100"></a>Weird key-binding notation?<br />
+<div class="outline-text-5" id="text-3-2-2-1">
+<ul class="org-ul">
+<li>&ldquo;C&rdquo; is control</li>
+<li>&ldquo;M&rdquo; is alt/meta</li>
+<li>&ldquo;S&rdquo; is shift</li>
+</ul>
+
+<p>
+When there is a &ldquo;-&rdquo; between two keys that means press them together.
+</p>
+
+<p>
+&ldquo;C-x C-f&rdquo;: Control and x and then control and f (you can also hold down control)
+</p>
+</div>
+</li>
+
+<li><a id="org8bead97"></a>What is a &ldquo;buffer&rdquo;?<br />
+<div class="outline-text-5" id="text-3-2-2-2">
+<p>
+Buffers hold a file&rsquo;s text. In the example before with Tetris, `(tetris)` creates a Tetris buffer.
+</p>
+
+<p>
+You can think of buffers as &ldquo;tabs&rdquo; in a browser or GUI text editor
+</p>
+</div>
+</li>
+
+<li><a id="org00851d7"></a>What is a &ldquo;window&rdquo;?<br />
+<div class="outline-text-5" id="text-3-2-2-3">
+<p>
+A window hosts a buffer. When you make a split, each side is a &ldquo;window&rdquo;
+</p>
+
+<p>
+Cycle between windows with &ldquo;C-x C-o&rdquo;
+</p>
+
+<p>
+Close a window with &ldquo;C-x 0&rdquo;
+</p>
+</div>
+</li>
+
+<li><a id="org89ad707"></a>What is a &ldquo;frame&rdquo;?<br />
+<div class="outline-text-5" id="text-3-2-2-4">
+<p>
+A frame hosts a complete instance Emacs. They are equivalent to &ldquo;windows&rdquo; in a window manager. It&rsquo;s common to only really ever use one.
+</p>
+</div>
+</li>
+
+<li><a id="orga9691c6"></a>Good-to-know keybindings<br />
+<div class="outline-text-5" id="text-3-2-2-5">
+<ol class="org-ol">
+<li>Quit emacs with &ldquo;C-x C-c&rdquo;</li>
+<li>Open a file with &ldquo;C-x C-f&rdquo;</li>
+<li>Save a file with &ldquo;C-x C-s&rdquo;</li>
+<li>Accidentally pressed a different command and you have no idea what you&rsquo;re looking at? &ldquo;C-g&rdquo; will probably get you out of it.</li>
+<li>&ldquo;C-x u&rdquo; to undo</li>
+<li>&ldquo;C-space&rdquo; to select a region and &ldquo;C-g&rdquo; to stop selecting it</li>
+<li>With a region selected, cut it with &ldquo;C-w&rdquo; (this is also known as &ldquo;killing&rdquo;)</li>
+<li>Paste with &ldquo;C-y&rdquo; (this is also known as &ldquo;yanking&rdquo;)</li>
+<li>Window/buffer keybindings:
+<ul class="org-ul">
+<li>&ldquo;C-x C-b&rdquo; changes the buffer in the current window</li>
+<li>&ldquo;C-x 2&rdquo; splits a buffer vertically</li>
+<li>&ldquo;C-x 3&rdquo; splits a buffer horizontally</li>
+<li>&ldquo;C-x o&rdquo; changes the current window</li>
+<li>&ldquo;C-x 0&rdquo; kills the current window</li>
+<li>&ldquo;C-x k&rdquo; kills the current buffer</li>
+</ul></li>
+<li>Movement keys
+<ul class="org-ul">
+<li>&ldquo;C-n&rdquo; goes to the next line
+<ul class="org-ul">
+<li>Vim: &ldquo;j&rdquo;</li>
+</ul></li>
+<li>&ldquo;C-p&rdquo; goes to the previous line
+<ul class="org-ul">
+<li>Vim: &ldquo;k&rdquo;</li>
+</ul></li>
+<li>&ldquo;C-f&rdquo; goes to the next character
+<ul class="org-ul">
+<li>Vim: &ldquo;l&rdquo;</li>
+</ul></li>
+<li>&ldquo;C-b&rdquo; goes to the previous character
+<ul class="org-ul">
+<li>Vim: &ldquo;h&rdquo;</li>
+</ul></li>
+<li>&ldquo;M-f&rdquo; and &ldquo;M-b&rdquo; goes forward/back a word
+<ul class="org-ul">
+<li>Vim: &ldquo;f&rdquo; and &ldquo;b&rdquo;</li>
+</ul></li>
+<li>&ldquo;C-a&rdquo; goes to beginning of a line
+<ul class="org-ul">
+<li>Vim: &ldquo;0&rdquo;</li>
+</ul></li>
+<li>&ldquo;C-e&rdquo; goes to the end of a line
+<ul class="org-ul">
+<li>Vim: &ldquo;$&rdquo;</li>
+</ul></li>
+</ul></li>
+<li>Documentation
+<ul class="org-ul">
+<li>&ldquo;C-h a&rdquo; to find the keybindings for a command, or to search for a command</li>
+<li>&ldquo;C-h k&rdquo; to find the name of a function tied to a keybinding</li>
+</ul></li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-orgd138802" class="outline-3">
+<h3 id="orgd138802"><span class="section-number-3">3.3.</span> First look at Elisp</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Elisp is a dialect of Lisp specifically written for Emacs. Everything in Elisp is a function. Drawing the buffer, splitting windows, moving the text cursor, are all functions you can call in Elisp. It makes it super easy to configure Emacs if you know just a little bit of Lisp.
+</p>
+
+<p>
+In fact, let&rsquo;s take a look at Elisp and how we can start to customize our own environment programatically.
+</p>
+</div>
+
+<div id="outline-container-orgfdb2559" class="outline-4">
+<h4 id="orgfdb2559"><span class="section-number-4">3.3.1.</span> Lisp&rsquo;s simple syntax</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<p>
+In Lisps, the syntax is super simple. Everything is essentially a linked list, both in data and in source code. Lists are written like `(a . (b . (c . NIL)))`. This would be equivalent to the linked list `a -&gt; b -&gt; c -&gt; null` (nil = null = false in lisp).
+</p>
+
+<p>
+However, writing a dot and a period becomes cumbersome when you have even a medium sized list. This is where s-expressions are useful.
+</p>
+
+<p>
+S-expressions are written with parentheses around them, like so: `(a b c)`. This is shorthand for the above `(a . (b . (c . NIL)))`.
+</p>
+
+<p>
+By convention, Lisp code is written with the function as the first element in the linked list, and arguments of the function afterwards.
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="orgb9cf56d"></a>Sum of numbers<br />
+<ol class="org-ol">
+<li><a id="org236624d"></a>The list way<br />
+<div class="outline-text-6" id="text-3-3-1-1-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">+</span> . <span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">2</span> . <span style="color: #98be65;">(</span><span style="color: #da8548; font-weight: bold;">2</span> . nil<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span> <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">2 + 2</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org330d3c2"></a>The S-expression way<br />
+<div class="outline-text-6" id="text-3-3-1-1-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">+</span> <span style="color: #da8548; font-weight: bold;">2</span> <span style="color: #da8548; font-weight: bold;">2</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="org4aa0d6d"></a>Difference of numbers<br />
+<div class="outline-text-5" id="text-3-3-1-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">-</span> <span style="color: #da8548; font-weight: bold;">3</span> <span style="color: #da8548; font-weight: bold;">2</span><span style="color: #51afef;">)</span> <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">3 - 2</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org2a94823"></a>Printing values<br />
+<div class="outline-text-5" id="text-3-3-1-3">
+<p>
+`princ` will take the value of a lisp object at print it:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">princ</span> <span style="color: #98be65;">"Hello, world!"</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org7955f20"></a>Multiplication<br />
+<div class="outline-text-5" id="text-3-3-1-4">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">*</span> <span style="color: #da8548; font-weight: bold;">3</span> <span style="color: #da8548; font-weight: bold;">5</span><span style="color: #51afef;">)</span> <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">3 * 5</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgd4ff441"></a>Division<br />
+<div class="outline-text-5" id="text-3-3-1-5">
+<p>
+(Integer math)
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">princ</span> <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">/</span> <span style="color: #da8548; font-weight: bold;">3</span> <span style="color: #da8548; font-weight: bold;">5</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span> <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">3 / 5</span>
+</pre>
+</div>
+<p>
+(Floating-point math)
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">princ</span> <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">/</span> <span style="color: #da8548; font-weight: bold;">3.0</span> <span style="color: #da8548; font-weight: bold;">5</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span> <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">3 / 5</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org663413f"></a>Order of operations<br />
+<div class="outline-text-5" id="text-3-3-1-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #51afef;">setq</span> a <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">/</span> <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">*</span> <span style="color: #da8548; font-weight: bold;">2</span> <span style="color: #da8548; font-weight: bold;">3</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">-</span> <span style="color: #da8548; font-weight: bold;">6</span> <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>     <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">variable a = (2 * 3) / (6 - 1) = 1</span>
+<span style="color: #51afef;">(</span><span style="color: #51afef;">setq</span> b <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">-</span> <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">*</span> <span style="color: #da8548; font-weight: bold;">2</span> <span style="color: #a9a1e1;">(</span><span style="color: #a9a1e1;">/</span> <span style="color: #da8548; font-weight: bold;">3.0</span> <span style="color: #da8548; font-weight: bold;">6.0</span><span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span> <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span> <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">variable b = (2 * (3 / 6)) - 1 = 0</span>
+<span style="color: #51afef;">(</span><span style="color: #a9a1e1;">princ</span> <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">list</span> a b<span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span> <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Print a linked list a -&gt; b -&gt; nil</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgd990cd9" class="outline-4">
+<h4 id="orgd990cd9"><span class="section-number-4">3.3.2.</span> Writing a simple function in Elisp</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<p>
+Here I will split this window into three sections with Elisp:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #c678dd;">split-window-right</span><span style="color: #51afef;">)</span>
+<span style="color: #51afef;">(</span><span style="color: #c678dd;">split-window-below</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+<p>
+To cycle forward through these windows, I press &ldquo;C-x C-o&rdquo;.
+</p>
+
+<p>
+However, what if I want to go back a window?
+</p>
+
+<p>
+Emacs doesn&rsquo;t provide a keybinding for this by default (to my knowledge), so let&rsquo;s make it in Elisp ourselves!
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="org2121b3d"></a>Definining a function to go back a window<br />
+<div class="outline-text-5" id="text-3-3-2-1">
+<p>
+Functions in Elisp are made with the `defun` macro (macros are for a different presentation) and the syntax is:
+</p>
+
+<p>
+`(defun function-name (list-of-args) function-body)`
+</p>
+
+<p>
+The last element in the function body is what is returned
+</p>
+
+<p>
+For example, to make a function to find the hypotenuse of a right triangle with lengths a,b:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #51afef;">defun</span> <span style="color: #c678dd;">pythagoras</span> <span style="color: #c678dd;">(</span>a b<span style="color: #c678dd;">)</span>
+  <span style="color: #c678dd;">(</span><span style="color: #51afef;">setq</span> a-squared <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">*</span> a a<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>
+  <span style="color: #c678dd;">(</span><span style="color: #51afef;">setq</span> b-squared <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">*</span> b b<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>
+  <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">sqrt</span> <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">+</span> a-squared b-squared<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+<span style="color: #51afef;">(</span><span style="color: #a9a1e1;">princ</span> <span style="color: #c678dd;">(</span><span style="color: #c678dd;">pythagoras</span> <span style="color: #da8548; font-weight: bold;">5</span> <span style="color: #da8548; font-weight: bold;">12</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+<p>
+Defining the function
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #51afef;">defun</span> <span style="color: #c678dd;">go-back-window</span> <span style="color: #c678dd;">()</span>
+  <span style="color: #c678dd;">(</span><span style="color: #51afef;">interactive</span><span style="color: #c678dd;">)</span> <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">makes a function an interactively-callable command (e.g. allowing call by a keybinding)</span>
+  <span style="color: #c678dd;">(</span><span style="color: #c678dd;">other-window</span> <span style="color: #da8548; font-weight: bold;">-1</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span> <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">(other-window n) goes n windows forward in the window stack</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #c678dd;">go-back-window</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+<p>
+Let&rsquo;s add a key binding for this!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #c678dd;">global-set-key</span> <span style="color: #c678dd;">(</span><span style="color: #c678dd;">kbd</span> <span style="color: #98be65;">"C-c u"</span><span style="color: #c678dd;">)</span> <span style="color: #51afef;">'</span><span style="color: #ECBE7B;">go-back-window</span><span style="color: #51afef;">)</span> <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">We specify the name of the function by turning it into a "symbol"</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgc62f346" class="outline-2">
+<h2 id="orgc62f346"><span class="section-number-2">4.</span> Why is Emacs better than Vim?</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org9cb415d" class="outline-3">
+<h3 id="org9cb415d"><span class="section-number-3">4.1.</span> Org mode</h3>
+<div class="outline-text-3" id="text-4-1">
+</div>
+<div id="outline-container-orgfd1cfa9" class="outline-4">
+<h4 id="orgfd1cfa9"><span class="section-number-4">4.1.1.</span> &ldquo;Your life, in plain text&rdquo;</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+Every single org file is represented in Plain Text. Similar to markdown, it&rsquo;s a way to format this plain text so that it&rsquo;s readable and understandable by humans, but still parsable and extensible for programmers. This presentation itself is in org mode!
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5703388" class="outline-4">
+<h4 id="org5703388"><span class="section-number-4">4.1.2.</span> Programming in org mode</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<p>
+You may have noticed these things here in my presentations:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">princ</span> <span style="color: #98be65;">"I run in a source block!"</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+<p>
+These blocks, called &ldquo;source blocks&rdquo;, are blocks of code you can run interactively in an org mode document. It&rsquo;s incredibly common for emacs users to define their init.el (the file emacs will run first when it starts up) in an org mode document, whose source-blocks are cut out and placed automatically.
+</p>
+
+<p>
+They are also great for presentations, and taking notes in a CS class
+</p>
+
+<p>
+These blocks are run with &ldquo;C-c C-c&rdquo;
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9ceb068" class="outline-4">
+<h4 id="org9ceb068"><span class="section-number-4">4.1.3.</span> Math homework in org mode</h4>
+<div class="outline-text-4" id="text-4-1-3">
+<p>
+Org mode also has amazing LaTeX support. It&rsquo;s really easy to add mathematical symbols in an org mode document.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org0e3a524"></a>Inline org mode math<br />
+<ol class="org-ol">
+<li><a id="org203efc0"></a>A function f<br />
+<div class="outline-text-7" id="text-4-1-3-0-1-1">
+<p>
+S = {students at USU}
+M = {members of FSLC}
+B = {cool, uncool}
+</p>
+
+<p>
+f : S &rarr; B &ni; f(x) = {
+    cool (x &isin; M),
+    uncool
+}
+</p>
+</div>
+</li>
+
+<li><a id="org87287e7"></a>Definition of a proper subset<br />
+<div class="outline-text-7" id="text-4-1-3-0-1-2">
+<p>
+Let A,B be sets:
+A &sub; B &hArr; &forall; x (x &isin; A &rArr; x &isin; B) &and; A &ne; B
+</p>
+</div>
+</li>
+
+<li><a id="org452addb"></a>Let&rsquo;s make it pretty!<br />
+<div class="outline-text-7" id="text-4-1-3-0-1-3">
+<p>
+Right now, it doesn&rsquo;t look pretty, but watch this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span><span style="color: #c678dd;">org-toggle-pretty-entities</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+
+
+
+<li><a id="org669a24d"></a>Exporting to LaTeX<br />
+<div class="outline-text-6" id="text-4-1-3-0-2">
+<p>
+There&rsquo;s still a lot more flexibility in completely exporting an org mode document to a LaTeX pdf. You can define equations, include diagrams, captions, etc. It&rsquo;s super simple too! Just use the command `C-c C-e l o` (you need latex packages installed)
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org5f332b5" class="outline-4">
+<h4 id="org5f332b5"><span class="section-number-4">4.1.4.</span> Export to literally any format</h4>
+<div class="outline-text-4" id="text-4-1-4">
+<p>
+With the export menu, you can easily export to Open Office documents, HTML pages, Markdown, iCalendar (you can make agendas in Emacs), really anything!
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeae2586" class="outline-3">
+<h3 id="orgeae2586"><span class="section-number-3">4.2.</span> Amazing package support and community</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Yeah yeah, vim has packages too&#x2026; but they&rsquo;re not as cool or easy to install as Emacs :)
+</p>
+
+<p>
+The emacs community has made an insane amount of useful packages that are super easy to install. Here are a few:
+</p>
+</div>
+<div id="outline-container-org384b002" class="outline-4">
+<h4 id="org384b002"><span class="section-number-4">4.2.1.</span> MELPA</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<p>
+Essentially a repository of user-made extensions for Emacs. Think of this as the AUR.
+</p>
+</div>
+</div>
+<div id="outline-container-org2cec309" class="outline-4">
+<h4 id="org2cec309"><span class="section-number-4">4.2.2.</span> SLIME</h4>
+<div class="outline-text-4" id="text-4-2-2">
 <p>
 Get into a great Lisp interactive session!
 </p>
 </div>
 </div>
-<div id="outline-container-org024f8ab" class="outline-4">
-<h4 id="org024f8ab"><span class="section-number-4">3.2.3</span> Magit</h4>
-<div class="outline-text-4" id="text-3-2-3">
+<div id="outline-container-org8692c74" class="outline-4">
+<h4 id="org8692c74"><span class="section-number-4">4.2.3.</span> Magit</h4>
+<div class="outline-text-4" id="text-4-2-3">
 <p>
 Great for git interaction!
 </p>
 </div>
 </div>
-<div id="outline-container-orgc7bbeb8" class="outline-4">
-<h4 id="orgc7bbeb8"><span class="section-number-4">3.2.4</span> Company-mode</h4>
-<div class="outline-text-4" id="text-3-2-4">
+<div id="outline-container-org4b39e5d" class="outline-4">
+<h4 id="org4b39e5d"><span class="section-number-4">4.2.4.</span> Company-mode</h4>
+<div class="outline-text-4" id="text-4-2-4">
 <p>
 For completion
 </p>
 </div>
 </div>
-<div id="outline-container-orgff617cf" class="outline-4">
-<h4 id="orgff617cf"><span class="section-number-4">3.2.5</span> Undo-tree</h4>
-<div class="outline-text-4" id="text-3-2-5">
+<div id="outline-container-org167ed70" class="outline-4">
+<h4 id="org167ed70"><span class="section-number-4">4.2.5.</span> Undo-tree</h4>
+<div class="outline-text-4" id="text-4-2-5">
 <p>
-For undoing your work
+For undoing your work in a neater fashion
 </p>
 </div>
 </div>
-<div id="outline-container-orgc080fef" class="outline-4">
-<h4 id="orgc080fef"><span class="section-number-4">3.2.6</span> LSP-mode</h4>
-<div class="outline-text-4" id="text-3-2-6">
+<div id="outline-container-org9b1f6b7" class="outline-4">
+<h4 id="org9b1f6b7"><span class="section-number-4">4.2.6.</span> LSP-mode</h4>
+<div class="outline-text-4" id="text-4-2-6">
 <p>
 For running language servers
 </p>
 </div>
 </div>
 </div>
-</div>
 
-<div id="outline-container-org1f28161" class="outline-2">
-<h2 id="org1f28161"><span class="section-number-2">4</span> First steps in going forward with Emacs</h2>
-<div class="outline-text-2" id="text-4">
-</div>
-<div id="outline-container-org3f551ba" class="outline-3">
-<h3 id="org3f551ba"><span class="section-number-3">4.1</span> Are you a vim user converting from the dark side?</h3>
-<div class="outline-text-3" id="text-4-1">
-<p>
-Check out <a href="https://github.com/hlissner/doom-emacs">Doom Emacs</a> to get started on your journey!
-</p>
-</div>
-</div>
-<div id="outline-container-org889394b" class="outline-3">
-<h3 id="org889394b"><span class="section-number-3">4.2</span> Want to learn ELisp?</h3>
-<div class="outline-text-3" id="text-4-2">
-<p>
-Check out "Writing GNU Emacs Extensions". It's a really good O'Reilly book
-that you can access for free through USU.
-</p>
-</div>
-</div>
-<div id="outline-container-org7d785d4" class="outline-3">
-<h3 id="org7d785d4"><span class="section-number-3">4.3</span> Just want to get started with Emacs?</h3>
+
+<div id="outline-container-org966691d" class="outline-3">
+<h3 id="org966691d"><span class="section-number-3">4.3.</span> It&rsquo;s written in Lisp</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
-Dive right into emacs by installing it with whatever package manager you use.
-Read the guide that is accessible on the default emacs start page! It will
-teach you the basics. From there, just scrounge around the internet for
-resources. There are plenty.
-If you need a recommendation, you can start <a href="https://www.emacswiki.org/emacs/EmacsNewbie">at the emacs wiki.</a>
+We&rsquo;ve already taken a look at Elisp, but Lisp goes far more in depth than our simple breach of the surface. It&rsquo;s by far my favorite language, and it has influenced language since its creation in the 60&rsquo;s (10 years before C).
+</p>
+
+<p>
+Lisp is wholly functional, which is great in comparison to ugly Object-Oriented languages like Java.
+(Really, OOP is fine where necessary but it gets really bloated really really fast)
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orge85ebdb" class="outline-2">
-<h2 id="orge85ebdb"><span class="section-number-2">5</span> The compromise</h2>
+
+
+<div id="outline-container-org86d0202" class="outline-2">
+<h2 id="org86d0202"><span class="section-number-2">5.</span> First steps in going forward with Emacs</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orgf0a328c" class="outline-3">
-<h3 id="orgf0a328c"><span class="section-number-3">5.1</span> Can't decide which is better (it's emacs)? Good news! You don't have to!</h3>
+<div id="outline-container-org8dbd14d" class="outline-3">
+<h3 id="org8dbd14d"><span class="section-number-3">5.1.</span> Want to learn ELisp?</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
-Let's take a look at the "evil-mode" package. This is pretty much vim
-emulation within emacs. It is the best vim emulator ever; whatever vim
-can do, Evil Mode can do it too.
+I recommend reading &ldquo;Writing GNU Emacs Extensions&rdquo;. It goes into detail with Lisp, Emacs functions, and how everything works under the hood. It&rsquo;s an O&rsquo;Reilly book, so you get it free through USU.
 </p>
+</div>
+</div>
+
+<div id="outline-container-org7b98e1f" class="outline-3">
+<h3 id="org7b98e1f"><span class="section-number-3">5.2.</span> Want to get started with Emacs?</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Dive right into emacs by installing it with whatever package manager you use.
+</p>
+
+<p>
+Read the guide that is accessible on the default emacs start page! It will teach you the basics of movement and usage of the software. From there, just search around the internet for resources. There are plenty.
+</p>
+
+<p>
+If you need help or a recommendation, you can start <a href="https://www.emacswiki.org/emacs/EmacsNewbie">at the emacs wiki.</a> Or ask on the FSLC Discord in the `emacs-lisp` channel.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orga0006b1" class="outline-2">
+<h2 id="orga0006b1"><span class="section-number-2">6.</span> The compromise</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-org4832571" class="outline-3">
+<h3 id="org4832571"><span class="section-number-3">6.1.</span> Can&rsquo;t decide which is better (it&rsquo;s emacs)? Good news! You don&rsquo;t have to!</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+Let&rsquo;s take a look at the &ldquo;evil-mode&rdquo; package. This project aims to have 100% vim emulation within emacs. Whatever Vim can do, Evil Mode can do it too.
+</p>
+
+<p>
+A great pre-built bundle for Emacs, called <a href="https://github.com/hlissner/doom-emacs">Doom Emacs</a>, is great for new users who have familiarity with vim keybindings.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1231631" class="outline-3">
+<h3 id="org1231631"><span class="section-number-3">6.2.</span> More on Doom</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+Personally, I used to use my own Emacs configuration that I wrote my own extensions in Lisp for, but Doom has much saner defaults so I switched. Default Emacs looks ugly as hell:
+</p>
+
+
+<div id="orgcaf8af1" class="figure">
+<p><img src="./images/emacs_default.png" alt="emacs_default.png" />
+</p>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Simponic</p>
-<p class="date">Created: 2021-04-20 Tue 18:27</p>
-<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Created: 2021-10-13 Wed 22:01</p>
 </div>
 </body>
 </html>
