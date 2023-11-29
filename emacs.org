@@ -1,0 +1,302 @@
+#+TITLE: EMACS - the Extensible Machine Aggregating Creative S-expressions.
+#+STARTUP: inlineimages fold
+
+[[./img/emacs_user_fingers.png]]
+
+* what is emacs?
+
+well... it's better than valve's Steam!
+
+** what?
+*** yes, emacs is a gaming platform
+**** some tetris?
+
+#+BEGIN_SRC emacs-lisp
+  (tetris)
+#+END_SRC
+
+**** some snake?
+
+#+BEGIN_SRC emacs-lisp
+  (snake)
+#+END_SRC
+
+**** or bubbles?
+
+#+BEGIN_SRC emacs-lisp
+  (bubbles)
+#+END_SRC
+
+**** or the game of life?
+#+BEGIN_SRC emacs-lisp
+  (life)
+#+END_SRC
+
+*** why have a web browser when you can have emacs?
+
+#+BEGIN_SRC emacs-lisp
+  (eww "https://print.linux.usu.edu")
+#+END_SRC
+
+*** or systemd when you can have emacs?
+
+[[https://github.com/a-schaefers/systemE]]
+
+*** or a window manager when you can have emacs?
+
+[[https://github.com/ch11ng/exwm]]
+
+*** or a therapist when you can have emacs?
+
+emacs can help you solve all your life's issues. literally.
+
+#+BEGIN_SRC emacs-lisp
+  (doctor)
+#+END_SRC
+
+*** or a trongleposting server... when you can have emacs?
+#+BEGIN_SRC emacs-lisp
+  (use-package web-server
+    :ensure t
+    :straight '(web-server
+      	      :type git
+      	      :host github
+      	      :repo "eschulte/emacs-web-server"))
+
+  (defvar *trongle-chats* (make-ring 100)) ;; "db" with 100 past chats
+  (defvar *static* "/home/lizzy/git/usufslc/emacs/trongleposting-client/build/")
+  (defvar *chatlog* "/home/lizzy/git/usufslc/emacs/trongle-chats.txt")
+
+  (defvar *index* (concat *static* "index.html"))
+  (defvar *port* 9000)
+  (defvar *safe-chars* "^[ A-Za-z0-9._~()'!*:@,;+?-]+$")
+  (defvar *clients* '())
+
+  (defun current-iso-time ()
+    (format-time-string "%FT%T%:z"))
+
+  (defun safe-string-p (s &optional regex)
+    (unless regex (setq regex *safe-chars*))
+    (if (null s)
+        nil
+      (not (null (string-match regex s)))))
+
+  (defun validate-chat (chat)
+    (seq-every-p
+     'safe-string-p
+     (mapcar (lambda (field)
+  	     (cdr (assoc field chat)))
+  	   '(author message))))
+
+  (defun deflate-chat (chat)
+    (let ((parsed-j (json-parse-string chat)))
+      `((author . ,(gethash "author" parsed-j))
+        (message . ,(gethash "message" parsed-j)))))
+
+  (defun inflate-chat (chat)
+    (json-serialize chat))
+
+  (defun inflate-chat-list (chats)
+    (json-serialize
+     (vconcat [] chats)))
+
+  (defun handle-ws (proc input)
+    (setq *clients* (cons proc *clients*))
+    (process-send-string proc (ws-web-socket-frame "pong")))
+
+  (defun new-post (request)
+    (with-slots (process headers) request
+      (let* ((body (ws-body request))
+  	   (chat (deflate-chat body)))
+        (if (validate-chat chat)
+  	  (let* ((chat (cons `(date . ,(current-iso-time)) chat))
+  		 (chat-json (inflate-chat chat)))
+  	    ;; store and log
+  	    (ring-insert *trongle-chats* chat)
+  	    (append-to-file (concat chat-json "\n") nil *chatlog*)
+
+  	    ;; propogate to clients
+  	    (mapcar (lambda (client)
+  		      (process-send-string
+  		       client
+  		       (ws-web-socket-frame (inflate-chat chat))))
+  		    ,*clients*)
+
+  	    (ws-response-header process 200 '("Content-Type" . "application/json"))
+      	    (process-send-string process (json-serialize '((success . t)))))
+  	(ws-response-header process 400 '("Content-Type" . "application/json"))
+      	(process-send-string process (json-serialize
+  				      '((error . "invalid chat")
+  					(success . :false))))))))
+
+  (defun list-posts (request)
+    (with-slots (process headers) request
+      (ws-response-header process 200 '("Content-Type" . "application/json"))
+      (process-send-string process
+  			 (inflate-chat-list
+  			  (reverse (ring-elements *trongle-chats*))))))
+
+  (defun retrieve-static-file (request)
+    (with-slots (process headers) request
+      (let* ((path (replace-regexp-in-string "^/" "" (cdr (assoc :GET headers)))))
+        (if (equal path "")
+  	  (ws-send-file process *index*)
+  	(if (ws-in-directory-p *static* path)
+  	    (if (file-directory-p path)
+     		(ws-send-404 process)
+  	      (ws-send-file process
+  			    (expand-file-name path *static*)))
+  	  (ws-send-404 process))))))
+
+  (ws-start
+   `(((:POST . "/posts") . new-post)
+     ((:GET . "/posts") . list-posts)
+     ((:GET . ".*") .
+      (lambda (request)
+        (if (ws-web-socket-connect request 'handle-ws)
+  	  :keep-alive
+  	(retrieve-static-file request)))))
+   ,*port*)
+#+END_SRC
+
+#+RESULTS:
+: #s(ws-server (((:POST . "/posts") . new-post) ((:GET . "/posts") . list-posts) ((:GET . ".*") lambda (request) (if (ws-web-socket-connect request 'handle-ws) :keep-alive (retrieve-static-file request)))) #<process ws-server> 9000 nil)
+
+** EEE-macs
+
+i've come up with "Three E's" that kind of cover emacs' design tenets and goals:
+
+*** be extensible
+
+this is the first and foremost goal of emacs, and one that is certainly demonstrated by
+the capabilities of emacs as it comes packaged on your system.
+
+the only limit is your creativity. and with a fully bytecode JIT compilable LISP, that
+creativity is (don't quote me) _Easy to Express_.
+
+*** be evolving
+
+like many other softwares, emacs is a living and breathing creature that is continuously
+growing.
+
+the emacs community aims to make emacs the provider of an experience at the bleeding edge
+of writing software. major releases often bring about huge features that "evolve" emacs:
+
+1. native lsp support (~tree-sitter~, ~eglot~ in 29 - 2023)
+2. elisp JIT compiler to emacs bytecode (28.1 - 2022)
+3. pixel precise scrolling (long awaited)
+
+(there's a joke here about emacs still being single threaded somewhere...)
+
+*** be easy
+
+[[./img/emacs_default.png]]
+
+while emacs may not adhere to the unix philosophy, it is easy to grok by anyone that
+has used a text editor before.
+
+even with no experience, today _you_ could simply drop into ~emacs test.c~ and begin
+writing text. there's no weird "action modes" that require a barrier of entry to write
+code - besides knowing the key combination to save and quit, and how to press arrow keys.
+there's no necessary ~emacstutor~.
+
+people even create specific "distributions" of emacs like linux itself to provide a simple
+interface for beginners to even further lower the **mean time to become dangerous**.
+
+at the same time, emacs is more rich in features than any other software due to its
+extensibility. the further you go, the easier it gets. emacs is self documenting in itself
+(i.e. ~describe-*~) and has great online docs too.
+
+** so what does the FSF say?
+
+#+BEGIN_QUOTE
+"
+  Emacs is "an extensible, customizable, free/libre text editor — and more.
+  At its core is an interpreter for Emacs Lisp, a dialect of the Lisp programming
+  language with extensions to support text editing.
+"
+  - https://www.gnu.org/software/emacs
+#+END_QUOTE
+
+** an answer
+so to answer the question, "what is emacs?"...
+
+0. it's a text editor
+1. it's a window manager
+2. it's a rich email client
+3. it's a native IDE for ELISP, with optional support for all other languages
+4. it's a web browser
+5. it's a gaming console
+6. it's an interpreter
+7. it's a document editor (more on this later)
+8. it's the love of my life (... what)
+9. ~<insert your thing here>~
+
+...maybe it's best to ask, "what is it not?".
+
+* ORG mode
+you may've noticed i have these little guys here in my presentation:
+
+#+BEGIN_SRC emacs-lisp :results output
+  (princ "I run in a source block!")
+#+END_SRC
+
+these are blocks of code that can be run interactively in an "org" file. but what's an "org" file?
+
+well, like the question "what is emacs?" itself, it's another very complicated answer.
+
+"org" is a...
+0. presentation software (what you see here)
+1. calendar
+2. latex editor
+3. markdown editor
+4. html editor
+5. obsidian alternative
+6. open office editor
+7. programming notebook
+8. ...
+
+** "your life, in plain text"
+
+every single org file is simply plain text. that's the beauty. any way there is to structure code,
+applies to org files.
+
+as such, it's common for emacs users to define their ~init.el~ (the bootstrap script run when emacs
+starts) in an org mode document, whose source-blocks are "compiled" into an ~init.el~ file. then you
+can add notes and organize it into separate "trees" of concerns.
+
+and certainly org is "your life" - ~org-roam~ is a whole second [[https://systemcrafters.net/build-a-second-brain-in-emacs/getting-started-with-org-roam/][brain]].
+
+** students, this is for you
+
+emacs is godly for math and cs students. between this "interactive notebook" and latex editor,
+you can write stuff, without the headache of ~LaTeX~.
+
+introducing a function f:
+  S = { students at USU }
+  M = { members of FSLC }
+  B = { cool, uncool }
+  f : S \rightarrow B \ni f(x) = {
+    cool (x \in M),
+    uncool
+  }
+definition of a proper subset:
+  A \subset B \Leftrightarrow \forall x (x \in A \Rightarrow x \in B) \wedge A \neq B
+
+right now, it doesn't look pretty, but watch this:
+
+#+BEGIN_SRC emacs-lisp :results silent
+  (org-toggle-pretty-entities)
+#+END_SRC
+
+
+
+* how is emacs? key concepts.
+to introduce you to the world of emacs, you may want to know some basics.
+
+
+
+* conclusion
+emacs is now.
+
+

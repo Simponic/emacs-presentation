@@ -1,0 +1,78 @@
+body {
+  font-family: Consolas, monaco, monospace;
+  color: #fbf1c7;
+  margin: 0;
+  background-color: #3c3836;
+}
+
+.container {
+  max-width: 900px;
+  width: 80%;
+
+  border: 1px solid #b16286;
+  border-radius: 8px;
+  margin: 0;
+  padding: 24px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  background-color: #282828;
+
+  box-shadow: rgb( 0, 0, 0, 0.6) 6px 45px 45px -12px;
+}
+
+.chat {
+  border-bottom: 1px solid #d65d0e;
+  height: 200px;
+  overflow-y: scroll;
+  padding-bottom: 12px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d5c4a1 rgba(0,0,0,0);
+}
+
+*::-webkit-scrollbar {
+  width: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #d5c4a1;
+  border-radius: 12px;
+}
+
+.input {
+  font-size: 16px;
+  font-size: max(16px, 1em);
+  font-family: inherit;
+  padding: 0.25em 0.5em;
+  background-color: rgba(0,0,0,0);
+  border: none;
+  border-bottom: 1px solid #83a598;
+  color: #d5c4a1;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.button {
+  padding: 12px;
+  cursor: pointer;
+  border: 1px solid #8ec07c;
+  color: #8ec07c;
+  border-radius: 8px;
+  display: inline-block;
+}
