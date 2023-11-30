@@ -1,6 +1,5 @@
-
 #+TITLE: EMACS - the Extensible Machine Aggregating Creative S-Expressions.
-#+AUTHOR: Elizabeth Hunt
+#+AUTHOR: simponic
 #+STARTUP: inlineimages fold
 
 [[./img/xkcd.png]]
@@ -367,7 +366,41 @@ all you need is the help screen. when you open emacs without a file specified, t
 you're greeted with.
 
 * so is emacs better than vim?
-well the answer is **it doesn't matter**. none is greater than the other.
+
+** let's see what trongle has to say
+#+BEGIN_SRC
+ ____________________________________________________ 
+/                                                    \
+|  i'm gonna start using emacs to write my rust      |
+ ---------------------------------------------------- 
+          \\         :::.
+           \\      .::::::
+            \\    :::::::::
+             \\ .:::::::;od8888bo.
+               ::::::::OP?'::`*YO?
+             .:::::::::::::::::.
+           ,od8888bo;::::::d88b::
+           *":d88b:"*::::::Y88D:::
+          .:::Y88D::::::::::YP:::::.
+         ::::::YP::::::::::::::::::::
+        ::::::::::::::::::::::::::::::.     .oo.
+      .:::::::::::::::::::::oOOb:::::::.  ,oOOOD
+     ::::::::::::d8b:::::::::*OOO::::::;oOOOOP"
+    ::::::::::::::`*Y88888P:::OOOb:::;dOOOP"
+  .::::::::::::::::::::::::::;OOOD:/dOOOOo::
+ .::::::::::::::::::::::::::;OOOOOOOOOOOOO*::
+.:::::::::::::::::::::::::::oOOOOOOOOOOOOOOD::.
+`:::::::::::::::::::::::::::OOOOOOOOOOOOOOOB::'
+                            *OOOOOOOOOOOOOOD
+                             `*OOOOOOOOOOP"
+                                `"OOOP*"
+#+END_SRC
+
+thank you trongle! very insightful.
+
+** in all seriousness
+
+... well the answer is **it doesn't matter**. none is greater than the other.
 
 hahahah!! just kidding! yes, of _course_ emacs is better than vim.
 
