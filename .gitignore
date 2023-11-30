@@ -1,1 +1,2 @@
-trongle-chats.txt
+log/*
+!log/.gitkeep

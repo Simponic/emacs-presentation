@@ -1,33 +1,34 @@
 #+TITLE: EMACS - the Extensible Machine Aggregating Creative S-expressions.
 #+STARTUP: inlineimages fold
 
-[[./img/emacs_user_fingers.png]]
+[[./img/xkcd.png]]
 
 * what is emacs?
 
-well... it's better than valve's Steam!
+well... whatever it is, it's better than valve's Steam!
 
 ** what?
 *** yes, emacs is a gaming platform
 **** some tetris?
 
+comes with emacs.
+
 #+BEGIN_SRC emacs-lisp
   (tetris)
 #+END_SRC
 
-**** some snake?
-
-#+BEGIN_SRC emacs-lisp
-  (snake)
-#+END_SRC
-
 **** or bubbles?
+
+comes with emacs.
 
 #+BEGIN_SRC emacs-lisp
   (bubbles)
 #+END_SRC
 
 **** or the game of life?
+
+believe it or not, comes with emacs.
+
 #+BEGIN_SRC emacs-lisp
   (life)
 #+END_SRC
@@ -54,7 +55,12 @@ emacs can help you solve all your life's issues. literally.
   (doctor)
 #+END_SRC
 
-*** or a trongleposting server... when you can have emacs?
+*** or a trongleposting server... in anything but emacs?
+
+that's right. a RESTful API, websocket server, and static file HTTP server. in ELisp. in Emacs.
+
+does this not blow your mind??
+
 #+BEGIN_SRC emacs-lisp
   (use-package web-server
     :ensure t
@@ -64,8 +70,8 @@ emacs can help you solve all your life's issues. literally.
       	      :repo "eschulte/emacs-web-server"))
 
   (defvar *trongle-chats* (make-ring 100)) ;; "db" with 100 past chats
-  (defvar *static* "/home/lizzy/git/usufslc/emacs/trongleposting-client/build/")
-  (defvar *chatlog* "/home/lizzy/git/usufslc/emacs/trongle-chats.txt")
+  (defvar *static* "/home/lizzy/git/usufslc/emacs/trongleposting-client/build/") ;; npm run build
+  (defvar *chatlog* "/home/lizzy/git/usufslc/emacs/log/emacs-presie.txt")
 
   (defvar *index* (concat *static* "index.html"))
   (defvar *port* 9000)
@@ -100,8 +106,15 @@ emacs can help you solve all your life's issues. literally.
     (json-serialize
      (vconcat [] chats)))
 
+  (defun remove-client (process event)
+    (setq *clients* (seq-filter
+  		   (lambda (proc)
+  		     (not (equal process proc)))
+  		   ,*clients*)))
+
   (defun handle-ws (proc input)
     (setq *clients* (cons proc *clients*))
+    (set-process-sentinel proc 'remove-client)
     (process-send-string proc (ws-web-socket-frame "pong")))
 
   (defun new-post (request)
@@ -115,7 +128,7 @@ emacs can help you solve all your life's issues. literally.
   	    (ring-insert *trongle-chats* chat)
   	    (append-to-file (concat chat-json "\n") nil *chatlog*)
 
-  	    ;; propogate to clients
+  	    ;; propogate to open clients
   	    (mapcar (lambda (client)
   		      (process-send-string
   		       client
@@ -147,7 +160,6 @@ emacs can help you solve all your life's issues. literally.
   	      (ws-send-file process
   			    (expand-file-name path *static*)))
   	  (ws-send-404 process))))))
-
   (ws-start
    `(((:POST . "/posts") . new-post)
      ((:GET . "/posts") . list-posts)
@@ -166,15 +178,15 @@ emacs can help you solve all your life's issues. literally.
 
 i've come up with "Three E's" that kind of cover emacs' design tenets and goals:
 
-*** be extensible
+*** 1. be Extensible
 
-this is the first and foremost goal of emacs, and one that is certainly demonstrated by
-the capabilities of emacs as it comes packaged on your system.
+this is the first and foremost goal of emacs, and one that should certainly be demonstrated by
+the above demos.
 
 the only limit is your creativity. and with a fully bytecode JIT compilable LISP, that
 creativity is (don't quote me) _Easy to Express_.
 
-*** be evolving
+*** 2. be Evolving
 
 like many other softwares, emacs is a living and breathing creature that is continuously
 growing.
@@ -188,9 +200,7 @@ of writing software. major releases often bring about huge features that "evolve
 
 (there's a joke here about emacs still being single threaded somewhere...)
 
-*** be easy
-
-[[./img/emacs_default.png]]
+*** 3. be Easy as possible
 
 while emacs may not adhere to the unix philosophy, it is easy to grok by anyone that
 has used a text editor before.
@@ -201,7 +211,7 @@ code - besides knowing the key combination to save and quit, and how to press ar
 there's no necessary ~emacstutor~.
 
 people even create specific "distributions" of emacs like linux itself to provide a simple
-interface for beginners to even further lower the **mean time to become dangerous**.
+interface for beginners to even further lower the **mean delta time to become dangerous**.
 
 at the same time, emacs is more rich in features than any other software due to its
 extensibility. the further you go, the easier it gets. emacs is self documenting in itself
@@ -217,6 +227,8 @@ extensibility. the further you go, the easier it gets. emacs is self documenting
 "
   - https://www.gnu.org/software/emacs
 #+END_QUOTE
+
+_hopefully_ this is starting to make sense...
 
 ** an answer
 so to answer the question, "what is emacs?"...
@@ -241,7 +253,10 @@ you may've noticed i have these little guys here in my presentation:
   (princ "I run in a source block!")
 #+END_SRC
 
-these are blocks of code that can be run interactively in an "org" file. but what's an "org" file?
+these are source blocks! blocks of code that can be run interactively in an "org" file; like a jupyter
+notebook.
+
+org is by far my most used environment in emacs, outside of editing code. but what's an "org" file?
 
 well, like the question "what is emacs?" itself, it's another very complicated answer.
 
@@ -258,19 +273,19 @@ well, like the question "what is emacs?" itself, it's another very complicated a
 
 ** "your life, in plain text"
 
-every single org file is simply plain text. that's the beauty. any way there is to structure code,
-applies to org files.
+every single org file is simply plain text. that's the **elegancy**. thus, any way there is to
+structure code, can also be applied to org files.
 
-as such, it's common for emacs users to define their ~init.el~ (the bootstrap script run when emacs
-starts) in an org mode document, whose source-blocks are "compiled" into an ~init.el~ file. then you
-can add notes and organize it into separate "trees" of concerns.
+as such, it's common for emacs users to define their ~init.el~ (the bootstrap config script run when
+emacs starts) in an org mode document, whose source-blocks are "compiled" into an ~init.el~ file.
+then one can add notes to one's code, organizing it into separate "trees" of concerns.
 
-and certainly org is "your life" - ~org-roam~ is a whole second [[https://systemcrafters.net/build-a-second-brain-in-emacs/getting-started-with-org-roam/][brain]].
+and certainly org is "your life" - ~org-roam~ is a whole second **extensible** [[https://systemcrafters.net/build-a-second-brain-in-emacs/getting-started-with-org-roam/][brain]].
 
 ** students, this is for you
 
 emacs is godly for math and cs students. between this "interactive notebook" and latex editor,
-you can write stuff, without the headache of ~LaTeX~.
+you can write stuff without the overhead of ~LaTeX~.
 
 introducing a function f:
   S = { students at USU }
@@ -289,14 +304,76 @@ right now, it doesn't look pretty, but watch this:
   (org-toggle-pretty-entities)
 #+END_SRC
 
+with the built-in emacs pdf viewer it's also easy to completely export a document to latex and view
+its compilation. perfect for assignments!
 
+* how is emacs?
+to get you in the world of emacs, you may want to know the very basics.
 
-* how is emacs? key concepts.
-to introduce you to the world of emacs, you may want to know some basics.
+** buffers, windows, frames
 
++ frames are the top level instance of emacs. they're the actual "window" controlled by your window
+  manager or terminal emulator; you can drag it around and such.
 
++ buffers are interfaces between your emacs client and a file (or process). it's what controls the
+  individual text on the screen.
+
++ windows simply hold buffers; think of a "glass window" into a buffer.
+  i.e. i can create a new window split in my frame
+
+#+BEGIN_SRC emacs-lisp
+  (split-window-below)
+#+END_SRC
+
+#+RESULTS:
+: #<window 31 on emacs.org>
+
+i now have two windows, "viewing" the buffer representing the org file of this presentation.
+
+** modes
+
+#+BEGIN_QUOTE
+"
+  A mode is a set of definitions that customize Emacs behavior in useful ways.
+
+  There are two varieties of modes: minor modes, which provide features that users can turn on
+  and off while editing; and major modes, which are used for editing or interacting with a particular
+  kind of text.
+" - https://www.gnu.org/software/emacs/manual/html_node/elisp/Modes.html
+#+END_QUOTE
+
+by example, "ORG MODE", a major mode, tells emacs how to format the buffer to a window and draw
+all the neat little symbols and indentation.
+
+by contrast ~format-all-mode~ is a minor mode that might look at the major mode (maybe LISP mode, or
+C mode) and determines a formatter to auto-format a buffer's file on save.
+
+** key bindings
+
+there's a reason it's called "emacs pinky"
+
+[[./img/emacs_user_fingers.png]]
+
+anyways, you should absolutely know:
+
++ "C-x C-s" (ctrl-x ctrl-s) to save a file
++ "C-x C-c" (ctrl-x ctrl-c) to quit an emacs frame
++ "C-g" (ctrl-g) to cancel something (in most cases) if you fuck up
++ "C-x u" (ctrl-x u) to undo
++ "M-x butterfly" (meta / alt - x) "butterfly"
 
 * conclusion
-emacs is now.
+** common n00b: is emacs better than vim?
+well the answer is **it doesn't matter**. none is greater than the other.
 
+hahahah!! just kidding! yes, of _course_ emacs is better than vim.
 
+** getting started
+you don't really every need to get good in ELISP to use emacs, despite what you may've been lead to
+believe in this presentation.
+
+all you need is the help screen. when you open emacs without a file specified, this is what
+you're greeted with.
+
+** can't decide? be EVIL
+if you want to be EVIL and "emulate" vim in emacs, there's EVIL mode (take it away, Ethan!)

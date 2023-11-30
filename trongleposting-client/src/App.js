@@ -70,7 +70,7 @@ function App() {
   return (
     <div className="container" style={{ border: `1px solid ${color}` }}>
       <div style={{ textAlign: "center" }}>
-        <h2>TronglePosting in ELisp</h2>
+        <h2>TrongELISPosting</h2>
       </div>
       <div id="chat" className="chat">
         <p>Welcome!</p>
@@ -112,7 +112,7 @@ function App() {
           onChange={(e) => setContent(e.target.value)}
           value={content}
           rows={1}
-          cols={50}
+          cols={40}
         ></textarea>
         <div className="button" onClick={addPost}>
           Post
