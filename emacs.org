@@ -1,4 +1,6 @@
-#+TITLE: EMACS - the Extensible Machine Aggregating Creative S-expressions.
+
+#+TITLE: EMACS - the Extensible Machine Aggregating Creative S-Expressions.
+#+AUTHOR: Elizabeth Hunt
 #+STARTUP: inlineimages fold
 
 [[./img/xkcd.png]]
@@ -7,9 +9,9 @@
 
 well... whatever it is, it's better than valve's Steam!
 
-** what?
-*** yes, emacs is a gaming platform
-**** some tetris?
+* what?
+* yes, emacs is a gaming platform
+** some tetris?
 
 comes with emacs.
 
@@ -17,7 +19,7 @@ comes with emacs.
   (tetris)
 #+END_SRC
 
-**** or bubbles?
+** or bubbles?
 
 comes with emacs.
 
@@ -25,7 +27,7 @@ comes with emacs.
   (bubbles)
 #+END_SRC
 
-**** or the game of life?
+** or the game of life?
 
 believe it or not, comes with emacs.
 
@@ -33,21 +35,21 @@ believe it or not, comes with emacs.
   (life)
 #+END_SRC
 
-*** why have a web browser when you can have emacs?
+* why have a web browser when you can have emacs?
 
 #+BEGIN_SRC emacs-lisp
   (eww "https://print.linux.usu.edu")
 #+END_SRC
 
-*** or systemd when you can have emacs?
+* or an init system when you can have emacs?
 
 [[https://github.com/a-schaefers/systemE]]
 
-*** or a window manager when you can have emacs?
+* or a window manager when you can have emacs?
 
 [[https://github.com/ch11ng/exwm]]
 
-*** or a therapist when you can have emacs?
+* or a therapist when you can have emacs?
 
 emacs can help you solve all your life's issues. literally.
 
@@ -55,7 +57,7 @@ emacs can help you solve all your life's issues. literally.
   (doctor)
 #+END_SRC
 
-*** or a trongleposting server... in anything but emacs?
+* or a trongleposting server... in anything but emacs?
 
 that's right. a RESTful API, websocket server, and static file HTTP server. in ELisp. in Emacs.
 
@@ -69,7 +71,7 @@ does this not blow your mind??
       	      :host github
       	      :repo "eschulte/emacs-web-server"))
 
-  (defvar *trongle-chats* (make-ring 100)) ;; "db" with 100 past chats
+  (defvar *trongle-chats* (make-ring 100)) ;; "db"
   (defvar *static* "/home/lizzy/git/usufslc/emacs/trongleposting-client/build/") ;; npm run build
   (defvar *chatlog* "/home/lizzy/git/usufslc/emacs/log/emacs-presie.txt")
 
@@ -171,14 +173,11 @@ does this not blow your mind??
    ,*port*)
 #+END_SRC
 
-#+RESULTS:
-: #s(ws-server (((:POST . "/posts") . new-post) ((:GET . "/posts") . list-posts) ((:GET . ".*") lambda (request) (if (ws-web-socket-connect request 'handle-ws) :keep-alive (retrieve-static-file request)))) #<process ws-server> 9000 nil)
-
-** EEE-macs
+* EEE-macs
 
 i've come up with "Three E's" that kind of cover emacs' design tenets and goals:
 
-*** 1. be Extensible
+** 1. be Extensible
 
 this is the first and foremost goal of emacs, and one that should certainly be demonstrated by
 the above demos.
@@ -186,7 +185,7 @@ the above demos.
 the only limit is your creativity. and with a fully bytecode JIT compilable LISP, that
 creativity is (don't quote me) _Easy to Express_.
 
-*** 2. be Evolving
+** 2. be Evolving
 
 like many other softwares, emacs is a living and breathing creature that is continuously
 growing.
@@ -200,7 +199,7 @@ of writing software. major releases often bring about huge features that "evolve
 
 (there's a joke here about emacs still being single threaded somewhere...)
 
-*** 3. be Easy as possible
+** 3. be Easy as possible
 
 while emacs may not adhere to the unix philosophy, it is easy to grok by anyone that
 has used a text editor before.
@@ -217,7 +216,7 @@ at the same time, emacs is more rich in features than any other software due to 
 extensibility. the further you go, the easier it gets. emacs is self documenting in itself
 (i.e. ~describe-*~) and has great online docs too.
 
-** so what does the FSF say?
+* so what does the FSF say?
 
 #+BEGIN_QUOTE
 "
@@ -230,7 +229,7 @@ extensibility. the further you go, the easier it gets. emacs is self documenting
 
 _hopefully_ this is starting to make sense...
 
-** an answer
+* final answer
 so to answer the question, "what is emacs?"...
 
 0. it's a text editor
@@ -246,6 +245,7 @@ so to answer the question, "what is emacs?"...
 
 ...maybe it's best to ask, "what is it not?".
 
+and the answer to that, dear reader, is that emacs is not a good text editor :)
 * ORG mode
 you may've noticed i have these little guys here in my presentation:
 
@@ -271,7 +271,7 @@ well, like the question "what is emacs?" itself, it's another very complicated a
 7. programming notebook
 8. ...
 
-** "your life, in plain text"
+* "your life, in plain text"
 
 every single org file is simply plain text. that's the **elegancy**. thus, any way there is to
 structure code, can also be applied to org files.
@@ -282,7 +282,7 @@ then one can add notes to one's code, organizing it into separate "trees" of con
 
 and certainly org is "your life" - ~org-roam~ is a whole second **extensible** [[https://systemcrafters.net/build-a-second-brain-in-emacs/getting-started-with-org-roam/][brain]].
 
-** students, this is for you
+* students, this is for you
 
 emacs is godly for math and cs students. between this "interactive notebook" and latex editor,
 you can write stuff without the overhead of ~LaTeX~.
@@ -307,16 +307,16 @@ right now, it doesn't look pretty, but watch this:
 with the built-in emacs pdf viewer it's also easy to completely export a document to latex and view
 its compilation. perfect for assignments!
 
-* how is emacs?
-to get you in the world of emacs, you may want to know the very basics.
+* buffers, windows, frames, oh my
 
-** buffers, windows, frames
+to get you in the world of emacs, i should at least introduce the very basics.
 
-+ frames are the top level instance of emacs. they're the actual "window" controlled by your window
-  manager or terminal emulator; you can drag it around and such.
++ frames are the "top level instance" of emacs. they're the actual "window" controlled by
+  your window manager or terminal emulator in the instance of a tui; you can drag it around
+  and such.
 
-+ buffers are interfaces between your emacs client and a file (or process). it's what controls the
-  individual text on the screen.
++ buffers are interfaces between your emacs client and a file (or process). it's what controls
+  the individual text on the screen.
 
 + windows simply hold buffers; think of a "glass window" into a buffer.
   i.e. i can create a new window split in my frame
@@ -325,12 +325,9 @@ to get you in the world of emacs, you may want to know the very basics.
   (split-window-below)
 #+END_SRC
 
-#+RESULTS:
-: #<window 31 on emacs.org>
-
 i now have two windows, "viewing" the buffer representing the org file of this presentation.
 
-** modes
+* modes
 
 #+BEGIN_QUOTE
 "
@@ -348,7 +345,7 @@ all the neat little symbols and indentation.
 by contrast ~format-all-mode~ is a minor mode that might look at the major mode (maybe LISP mode, or
 C mode) and determines a formatter to auto-format a buffer's file on save.
 
-** key bindings
+* key bindings
 
 there's a reason it's called "emacs pinky"
 
@@ -362,18 +359,27 @@ anyways, you should absolutely know:
 + "C-x u" (ctrl-x u) to undo
 + "M-x butterfly" (meta / alt - x) "butterfly"
 
-* conclusion
-** common n00b: is emacs better than vim?
-well the answer is **it doesn't matter**. none is greater than the other.
-
-hahahah!! just kidding! yes, of _course_ emacs is better than vim.
-
-** getting started
+* getting started
 you don't really every need to get good in ELISP to use emacs, despite what you may've been lead to
 believe in this presentation.
 
 all you need is the help screen. when you open emacs without a file specified, this is what
 you're greeted with.
 
+* so is emacs better than vim?
+well the answer is **it doesn't matter**. none is greater than the other.
+
+hahahah!! just kidding! yes, of _course_ emacs is better than vim.
+
 ** can't decide? be EVIL
-if you want to be EVIL and "emulate" vim in emacs, there's EVIL mode (take it away, Ethan!)
+
+[[./img/yay_evil.png]]
+
+if you want to be EVIL and "emulate" vim in emacs, there's EVIL mode.
+
+EVIL mode aims to be near 100% compatible with all things vim. Doom Emacs
+and Spacemacs are somewhat sane distributions of Emacs meant for recent
+converts to the Church of Emacs that may know a thing or two about ViM
+bindings.
+
+and... a recent convert to being EVIL... take it away, Ethan!
